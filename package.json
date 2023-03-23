@@ -1,0 +1,22 @@
+{
+  "name": "cube-3",
+  "version": "1.0.0",
+  "description": "Projet du CUBE #3 - Intégration web et mobile",
+  "main": "index.js",
+  "scripts": {
+    "test": "\"nodemon api.js\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MaximePizzuto/CUBE-3.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MaximePizzuto/CUBE-3/issues"
+  },
+  "homepage": "https://github.com/MaximePizzuto/CUBE-3#readme",
+  "dependencies": {
+    "nodemon": "^2.0.22"
+  }
+}
