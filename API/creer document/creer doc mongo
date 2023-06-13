@@ -1,0 +1,34 @@
+// Commande Afficher tout les éléments pour MONGODB
+// A integrer dans Server.js pour afficher les éléments dans la console
+
+//mongo const
+const MongoClient = require('mongodb').MongoClient;
+//Uri de connexion
+const uri = "mongodb+srv://maxime:2T4VadBrAnmLy0JW@mongonode.vi8f1bb.mongodb.net/?retryWrites=true&w=majority";
+
+//const de fonction
+const client = new MongoClient(uri);
+async function run() {
+    //TRY
+  try {
+
+    //definition base de données mongo
+   const database = client.db('mongonode');
+   //definition collection
+   const titles = database.collection('test');
+   // définition du document
+   const doc = { title: "INSERTDOCTITLE", description: "DOCUMENT_DE_DESCRIPTION" };
+   // insertion du document dans la collection de la BDD
+   const result = await titles.insertOne(doc);
+   // Affichage de l'id du doc dans la console 
+   console.log(
+   `A document was inserted with the _id: ${result.insertedId}`,
+   );
+
+  } finally {
+    // Ensures that the client will close when you finish/error
+    await client.close();
+  }
+}
+//appel de la fonction run 
+run().catch(console.dir);
