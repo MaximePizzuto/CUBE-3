@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html ng-app="MyApp">
+<head>
+  <title>Connexion</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-route.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/loginController.js"></script>
+</head>
+<body>
+  <div ng-controller="loginController">
+    <h2>Connexion</h2>
+    <form ng-submit="login()">
+      <label>Email: </label><input type="email" ng-model="email"><br>
+      <label>Mot de passe: </label><input type="password" ng-model="mot_de_passe"><br>
+      <input type="submit" value="Se connecter">
+    </form>
+    <p>Pas encore inscrit? <a href="/index.html">Inscription</a></p>
+  </div>
+</body>
+</html>

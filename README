@@ -1,0 +1,15 @@
+Créer un dossier.
+
+Dans ce dossier :
+
+npm init -y //pour créer un fichier package.json pour gérer les dépendance.
+
+npm install angular@1.8.2 //installation angular
+
+npm install express mongodb cors mongoose bcryptjs jsonwebtoken body-parser express-session // Installation des dépendances nécessaire.
+
+Vérifier que MongoDB est bien lancé (on peut ouvrir powershell en admin et taper "net start mongoDB" pour vérifier )
+
+On peut également vérifier que le serveur est lancé en tapant cette url dans le navigateur : "mongodb://127.0.0.1:27017" ou "mongodb://localhost:27017" Ce faisant on doit être rédirigé vers MongoDB Compass qui est l'interface graphique de gestion de MongoDB.
+
+node server.js // pour lancer le server et pouvoir accéder au site en local.
