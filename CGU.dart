@@ -11,13 +11,13 @@ class CGU extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.red,
       ),
-      home: const CGUScreen(title: 'MyPerform'),
+      home: const _CGUScreen(title: 'Condition général d\'utilisation'),
     );
   }
 }
 
-class CGUScreen extends StatefulWidget {
-  const CGUScreen({
+class _CGUScreen extends StatefulWidget {
+  const _CGUScreen({
     required this.title,
     Key? key,
   }) : super(key: key);
@@ -28,12 +28,25 @@ class CGUScreen extends StatefulWidget {
   _CGUScreenState createState() => _CGUScreenState();
 }
 
-class _CGUScreenState extends State<CGUScreen> {
+class _CGUScreenState extends State<_CGUScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color.fromRGBO(230, 93, 43, 1.0),
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Color(0xFFBF360C),
+                Color(0xFFF57C00),
+                Color(0xFFBF360C),
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              transform: GradientRotation(45),
+            ),
+          ),
+        ),
         title: Text(
           widget.title,
           style: const TextStyle(
@@ -63,12 +76,28 @@ class _CGUScreenState extends State<CGUScreen> {
                   child: Align(
                     alignment: Alignment.bottomRight,
                     child: SizedBox(
-                      width: 90,
+                      width: 85,
                       height: 80,
                       child: Image.asset(
                         'assets/images/myperform.png',
                         fit: BoxFit.fill,
                       ),
+                    ),
+                  ),
+                ),
+              ),
+              const Positioned(
+                bottom: 1,
+                left: 0,
+                right: 0,
+                child: Center(
+                  child: Text(
+                    '©2023 MyPerform | Developed By Dorian',
+                    style: TextStyle(
+                      fontFamily: 'merriweather',
+                      fontSize: 8,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
                     ),
                   ),
                 ),
@@ -190,27 +219,35 @@ class _CGUScreenState extends State<CGUScreen> {
                 right: 0,
                 child: Container(
                   alignment: Alignment.bottomCenter,
-                  child: TextButton(
-                    onPressed: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(builder: (context) => Connect()),
-                      );
-                    },
-                    style: ButtonStyle(
-                      textStyle: MaterialStateProperty.all<TextStyle>(
-                        const TextStyle(
-                          color: Colors.black,
-                          fontSize: 16.0,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10.0),
+                      gradient: const LinearGradient(
+                        colors: [
+                          Color(0xFFBF360C),
+                          Color(0xFFF57C00),
+                          Color(0xFFBF360C),
+                        ],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        transform: GradientRotation(45),
+                      ),
+                    ),
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (context) => Connect()),
+                        );
+                      },
+                      child: const Text(
+                        'Retour',
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 0, 0, 0),
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      backgroundColor: MaterialStateProperty.all<Color>(
-                          const Color.fromARGB(255, 193, 91, 1)),
-                      foregroundColor:
-                          MaterialStateProperty.all<Color>(Colors.black),
                     ),
-                    child: const Text('retour'),
                   ),
                 ),
               ),
