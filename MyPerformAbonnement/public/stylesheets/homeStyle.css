@@ -1,9 +1,0 @@
-.homepage {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: aquamarine;
-    height: auto;
-    width: auto;
-    flex-direction: column;
-}
