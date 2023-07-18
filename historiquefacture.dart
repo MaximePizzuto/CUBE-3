@@ -2,9 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:myperform/accueil.dart';
 
 class Facture extends StatelessWidget {
-  const Facture({Key? key, required this.userNom, required this.formulePrix}) : super(key: key);
+  const Facture(
+      {Key? key,
+      required this.userPrenom,
+      required this.formulePrix,
+      required this.formuleNom,
+      required this.userMdp})
+      : super(key: key);
   final String formulePrix;
-  final String userNom;
+  final String userPrenom;
+  final String formuleNom;
+  final String userMdp;
 
   @override
   Widget build(BuildContext context) {
@@ -13,32 +21,70 @@ class Facture extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.red,
       ),
-      home: _Facture(title: 'MyPerform', userNom: userNom, formulePrix: formulePrix),
+      home: _Facture(
+        title: 'MyPerform',
+        userPrenom: userPrenom,
+        formulePrix: formulePrix,
+        formuleNom: formuleNom,
+        userMdp: userMdp,
+      ),
     );
   }
 }
 
 class _Facture extends StatefulWidget {
   final String title;
-  final String userNom;
+  final String userPrenom;
   final String formulePrix;
+  final String formuleNom;
+  final String userMdp;
 
-  const _Facture({required this.title, required this.userNom, required this.formulePrix});
+  const _Facture(
+      {required this.title,
+      required this.userPrenom,
+      required this.formulePrix,
+      required this.formuleNom,
+      required this.userMdp});
 
   @override
-  _FactureState createState() => _FactureState(userNom: userNom, formulePrix: formulePrix);
+  // ignore: no_logic_in_create_state
+  _FactureState createState() => _FactureState(
+      userPrenom: userPrenom,
+      formulePrix: formulePrix,
+      formuleNom: formuleNom,
+      userMdp: userMdp);
 }
 
 class _FactureState extends State<_Facture> {
-  final String userNom;
+  final String userPrenom;
+  final String userMdp;
   final String formulePrix;
+  final String formuleNom;
+  final String ancienFormule = 'DUER';
 
-  _FactureState({required this.userNom, required this.formulePrix});
+  _FactureState(
+      {required this.userPrenom,
+      required this.formulePrix,
+      required this.formuleNom,
+      required this.userMdp});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color.fromRGBO(230, 93, 43, 1.0),
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Color(0xFFBF360C),
+                Color(0xFFF57C00),
+                Color(0xFFBF360C),
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              transform: GradientRotation(45),
+            ),
+          ),
+        ),
         title: Text(
           widget.title,
           style: const TextStyle(
@@ -68,12 +114,28 @@ class _FactureState extends State<_Facture> {
                   child: Align(
                     alignment: Alignment.bottomRight,
                     child: SizedBox(
-                      width: 90,
+                      width: 85,
                       height: 80,
                       child: Image.asset(
                         'assets/images/myperform.png',
                         fit: BoxFit.fill,
                       ),
+                    ),
+                  ),
+                ),
+              ),
+              const Positioned(
+                bottom: 1,
+                left: 0,
+                right: 0,
+                child: Center(
+                  child: Text(
+                    '©2023 MyPerform | Developed By Dorian',
+                    style: TextStyle(
+                      fontFamily: 'merriweather',
+                      fontSize: 8,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
                     ),
                   ),
                 ),
@@ -131,9 +193,9 @@ class _FactureState extends State<_Facture> {
                                   ),
                                   child: Column(
                                     children: [
-                                      const Text(
-                                        'Formule DUER',
-                                        style: TextStyle(
+                                      Text(
+                                        'Formule $formuleNom',
+                                        style: const TextStyle(
                                           fontFamily: 'merriweather',
                                           fontSize: 15,
                                           fontWeight: FontWeight.bold,
@@ -163,7 +225,7 @@ class _FactureState extends State<_Facture> {
                             ),
                           ),
                         ),
-                        const SizedBox(height: 5.0),
+                        const SizedBox(height: 10.0),
                         Align(
                           alignment: Alignment.center,
                           child: Container(
@@ -195,9 +257,9 @@ class _FactureState extends State<_Facture> {
                                   ),
                                   child: Column(
                                     children: [
-                                      const Text(
-                                        'Formule DUER',
-                                        style: TextStyle(
+                                      Text(
+                                        'Formule $ancienFormule',
+                                        style: const TextStyle(
                                           fontFamily: 'merriweather',
                                           fontSize: 15,
                                           fontWeight: FontWeight.bold,
@@ -227,7 +289,7 @@ class _FactureState extends State<_Facture> {
                             ),
                           ),
                         ),
-                        const SizedBox(height: 5.0),
+                        const SizedBox(height: 10.0),
                         Align(
                           alignment: Alignment.center,
                           child: Container(
@@ -259,9 +321,9 @@ class _FactureState extends State<_Facture> {
                                   ),
                                   child: Column(
                                     children: [
-                                      const Text(
-                                        'Formule DUER',
-                                        style: TextStyle(
+                                      Text(
+                                        'Formule $ancienFormule',
+                                        style: const TextStyle(
                                           fontFamily: 'merriweather',
                                           fontSize: 15,
                                           fontWeight: FontWeight.bold,
@@ -291,7 +353,7 @@ class _FactureState extends State<_Facture> {
                             ),
                           ),
                         ),
-                        const SizedBox(height: 5.0),
+                        const SizedBox(height: 10.0),
                         Align(
                           alignment: Alignment.center,
                           child: Container(
@@ -323,9 +385,9 @@ class _FactureState extends State<_Facture> {
                                   ),
                                   child: Column(
                                     children: [
-                                      const Text(
-                                        'Formule DUER',
-                                        style: TextStyle(
+                                      Text(
+                                        'Formule $ancienFormule',
+                                        style: const TextStyle(
                                           fontFamily: 'merriweather',
                                           fontSize: 15,
                                           fontWeight: FontWeight.bold,
@@ -360,35 +422,49 @@ class _FactureState extends State<_Facture> {
                   ),
                 ),
               ),
-              const SizedBox(height: 5.0),
+              const SizedBox(height: 10.0),
               Positioned(
                 bottom: 60,
                 left: 0,
                 right: 0,
                 child: Container(
                   alignment: Alignment.bottomCenter,
-                  child: TextButton(
-                    onPressed: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => Accueil(userNom: userNom, formulePrix: formulePrix)),
-                      );
-                    },
-                    style: ButtonStyle(
-                      textStyle: MaterialStateProperty.all<TextStyle>(
-                        const TextStyle(
-                          color: Colors.black,
-                          fontSize: 16.0,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10.0),
+                      gradient: const LinearGradient(
+                        colors: [
+                          Color(0xFFBF360C),
+                          Color(0xFFF57C00),
+                          Color(0xFFBF360C),
+                        ],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        transform: GradientRotation(45),
+                      ),
+                    ),
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Accueil(
+                              userPrenom: userPrenom,
+                              formulePrix: formulePrix,
+                              formuleNom: formuleNom,
+                              userMdp: userMdp,
+                            ),
+                          ),
+                        );
+                      },
+                      child: const Text(
+                        'Retour',
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 0, 0, 0),
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      backgroundColor: MaterialStateProperty.all<Color>(
-                          const Color.fromARGB(255, 193, 91, 1)),
-                      foregroundColor:
-                          MaterialStateProperty.all<Color>(Colors.black),
                     ),
-                    child: const Text('retour'),
                   ),
                 ),
               ),
