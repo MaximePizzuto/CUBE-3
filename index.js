@@ -11,9 +11,6 @@ app.use(bodyParser.json());
 // app.use(cors());
 
 
-const userRoutes = require('./routes/recup_user.route');
-app.use('/api', userRoutes);
-
 connectToDatabase();
 
 app.listen(PORT, () => {
