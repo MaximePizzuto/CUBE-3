@@ -1,4 +1,4 @@
-var app = angular.module('MyApp', []);
+var app = angular.module('MyApp');
 
 app.controller('registerController', function ($scope, $http) {
   $scope.nom = '';

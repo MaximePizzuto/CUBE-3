@@ -1,4 +1,4 @@
-var app = angular.module('MyApp', []);
+var app = angular.module('MyApp');
 
 app.controller('homeController', ['$scope', '$window', '$http', function($scope, $window, $http) {
   $scope.isLoggedIn = sessionStorage.getItem('isLoggedIn') ? true : false;

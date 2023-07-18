@@ -1,4 +1,4 @@
-var app = angular.module('MyApp', []);
+var app = angular.module('MyApp');
 
 app.controller('loginController', ['$scope', '$http', '$window', function($scope, $http, $window) {
   $scope.email = '';
