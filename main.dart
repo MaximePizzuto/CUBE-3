@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myperform/connect.dart';
 
-//mettre un message d'erreur si les identifiants sont incorrectes
-//mettre le bouton retour en dessous du contnaire
-
 void main() async {
   runApp(const MyPerformConnect());
 }
@@ -33,13 +30,24 @@ class _Artwork extends StatefulWidget {
 }
 
 class _ArtworkState extends State<_Artwork> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: const Color.fromRGBO(230, 93, 43, 1.0),
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Color(0xFFBF360C),
+                Color(0xFFF57C00),
+                Color(0xFFBF360C),
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              transform: GradientRotation(45),
+            ),
+          ),
+        ),
         title: Text(
           widget.title,
           style: const TextStyle(
@@ -81,11 +89,27 @@ class _ArtworkState extends State<_Artwork> {
                   ),
                 ),
               ),
+              const Positioned(
+                bottom: 1,
+                left: 0,
+                right: 0,
+                child: Center(
+                  child: Text(
+                    '©2023 MyPerform | Developed By Dorian',
+                    style: TextStyle(
+                      fontFamily: 'merriweather',
+                      fontSize: 8,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+              ),
               Align(
                 alignment: Alignment.center,
                 child: Container(
                   width: 300,
-                  height: 120,
+                  height: 130,
                   padding: const EdgeInsets.all(20.0),
                   decoration: BoxDecoration(
                     color: Colors.white,
@@ -119,25 +143,39 @@ class _ArtworkState extends State<_Artwork> {
                           );
                         },
                         style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all<Color>(
-                              const Color.fromRGBO(230, 93, 43, 1.0)),
-                          padding: MaterialStateProperty.all<EdgeInsets>(
-                              const EdgeInsets.symmetric(horizontal: 5.0)),
-                          overlayColor:
-                              MaterialStateProperty.resolveWith<Color>(
-                                  (Set<MaterialState> states) {
-                            if (states.contains(MaterialState.hovered)) {
-                              return const Color.fromARGB(255, 193, 91, 1);
-                            }
-                            return const Color.fromRGBO(230, 93, 43, 1.0);
-                          }),
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                          ),
+                          overlayColor: MaterialStateProperty.all<Color>(
+                            Colors.transparent,
+                          ),
                         ),
-                        child: const Center(
-                          child: Text(
-                            'connexion',
-                            style: TextStyle(
-                              fontSize: 20.0,
-                              color: Colors.black,
+                        child: Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.symmetric(vertical: 12.0),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10.0),
+                            gradient: const LinearGradient(
+                              colors: [
+                                Color(0xFFBF360C),
+                                Color(0xFFF57C00),
+                                Color(0xFFBF360C),
+                              ],
+                              begin: Alignment.centerLeft,
+                              end: Alignment.centerRight,
+                            ),
+                          ),
+                          child: const Center(
+                            child: Text(
+                              'ENTRER',
+                              style: TextStyle(
+                                fontSize: 17.5,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         ),
