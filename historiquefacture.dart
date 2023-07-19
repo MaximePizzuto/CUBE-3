@@ -1,18 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:myperform/accueil.dart';
 
+//mettre sur une page entiere permettant de tout voir et que ce sois plus simple
+
 class Facture extends StatelessWidget {
   const Facture(
       {Key? key,
-      required this.userPrenom,
+      required this.userNom,
       required this.formulePrix,
       required this.formuleNom,
-      required this.userMdp})
+      required this.userMdp,
+      required this.userPrenom})
       : super(key: key);
   final String formulePrix;
-  final String userPrenom;
   final String formuleNom;
   final String userMdp;
+  final String userNom;
+  final String userPrenom;
 
   @override
   Widget build(BuildContext context) {
@@ -23,10 +27,11 @@ class Facture extends StatelessWidget {
       ),
       home: _Facture(
         title: 'MyPerform',
-        userPrenom: userPrenom,
         formulePrix: formulePrix,
         formuleNom: formuleNom,
         userMdp: userMdp,
+        userNom: userNom,
+        userPrenom: userPrenom,
       ),
     );
   }
@@ -34,39 +39,45 @@ class Facture extends StatelessWidget {
 
 class _Facture extends StatefulWidget {
   final String title;
-  final String userPrenom;
   final String formulePrix;
   final String formuleNom;
   final String userMdp;
+  final String userNom;
+  final String userPrenom;
 
   const _Facture(
       {required this.title,
       required this.userPrenom,
       required this.formulePrix,
       required this.formuleNom,
-      required this.userMdp});
+      required this.userMdp,
+      required this.userNom});
 
   @override
   // ignore: no_logic_in_create_state
   _FactureState createState() => _FactureState(
-      userPrenom: userPrenom,
       formulePrix: formulePrix,
       formuleNom: formuleNom,
-      userMdp: userMdp);
+      userMdp: userMdp,
+      userNom: userNom,
+      userPrenom: userPrenom);
 }
 
 class _FactureState extends State<_Facture> {
-  final String userPrenom;
   final String userMdp;
+  final String userNom;
+  final String userPrenom;
   final String formulePrix;
   final String formuleNom;
   final String ancienFormule = 'DUER';
 
   _FactureState(
-      {required this.userPrenom,
+      {
       required this.formulePrix,
       required this.formuleNom,
-      required this.userMdp});
+      required this.userMdp,
+      required this.userNom,
+      required this.userPrenom});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -449,10 +460,10 @@ class _FactureState extends State<_Facture> {
                           context,
                           MaterialPageRoute(
                             builder: (context) => Accueil(
-                              userPrenom: userPrenom,
+                              userNom: userNom,
                               formulePrix: formulePrix,
                               formuleNom: formuleNom,
-                              userMdp: userMdp,
+                              userPrenom: userPrenom,
                             ),
                           ),
                         );
