@@ -4,6 +4,7 @@ const User = require('../models/user.model');
 
 // Route pour récupérer tous les utilisateurs
 router.get('/Users', (req, res) => {
+    
     User.find()
       .then((users) => {
         res.status(200).json(users);
