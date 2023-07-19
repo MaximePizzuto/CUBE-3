@@ -13,6 +13,12 @@ app.use(bodyParser.json());
 
 connectToDatabase();
 
+const userRoutes = require('./routes/recup_user.route');
+
+app.use('/', userRoutes);
+
+
+
 app.listen(PORT, () => {
   console.log(`Serveur en cours d'exécution sur http://localhost:${PORT}`);
 });
