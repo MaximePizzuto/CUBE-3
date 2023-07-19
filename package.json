@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "npm start api.js",
+    "start": "node api.js",
     "test": "nodemon api.js",
     "i-dep": "npm i"
   },
