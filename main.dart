@@ -15,21 +15,14 @@ class MyPerformConnect extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.red,
       ),
-      home: const _Artwork(title: 'MyPerform'),
+      home: const _ArtworkScreen(),
     );
   }
 }
 
-class _Artwork extends StatefulWidget {
-  final String title;
+class _ArtworkScreen extends StatelessWidget {
+  const _ArtworkScreen();
 
-  const _Artwork({required this.title});
-
-  @override
-  _ArtworkState createState() => _ArtworkState();
-}
-
-class _ArtworkState extends State<_Artwork> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,9 +41,9 @@ class _ArtworkState extends State<_Artwork> {
             ),
           ),
         ),
-        title: Text(
-          widget.title,
-          style: const TextStyle(
+        title: const Text(
+          'MyPerform',
+          style: TextStyle(
             fontFamily: 'merriweather',
             fontSize: 20,
             fontWeight: FontWeight.bold,
@@ -143,8 +136,7 @@ class _ArtworkState extends State<_Artwork> {
                           );
                         },
                         style: ButtonStyle(
-                          shape:
-                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                             RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10.0),
                             ),
