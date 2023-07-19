@@ -3,12 +3,35 @@ import 'dart:async' show Future;
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:myperform/CGU.dart';
 import 'package:myperform/accueil.dart';
-import 'package:myperform/credit.dart';
 
 Future<List<String>> readDatabase() async {
   final String data = await rootBundle.loadString('assets/identifiants.txt');
   final List<String> lines = data.split('\n');
   return lines;
+}
+
+void showErrorDialog(BuildContext context, String message) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: const Text('Erreur'),
+        content: Text(message),
+        actions: <Widget>[
+          TextButton(
+            child: const Text('OK'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    },
+  );
+}
+
+void showErrorConnect(BuildContext context) {
+  showErrorDialog(context, 'Nom ou mot de passe incorrect');
 }
 
 class Connect extends StatelessWidget {
@@ -46,28 +69,40 @@ class _Connect extends StatefulWidget {
 
 class _ConnectState extends State<_Connect> {
   final String formulePrix = '';
+  final String formuleNom = '';
+  final String userPrenom = '';
   bool passToggle = true;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final FocusNode _userNomFocusNode = FocusNode();
   final FocusNode _userMdpFocusNode = FocusNode();
 
   void handleAuthentication(
-      bool isAuthenticated, String userNom, String formulePrix) {
-    if (isAuthenticated) {
+  bool isAuthenticated, String userNom, String formulePrix) {
+  if (isAuthenticated) {
+    widget.userNomController.clear();
+    widget.userMdpController.clear();
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => Accueil(
+          userNom: userNom,
+          formulePrix: formulePrix,
+          formuleNom: formuleNom,
+          userPrenom: userPrenom,
+        ),
+      ),
+    );
+  } else {
+    debugPrint('Invalid credentials');
+    showErrorConnect(context);
+    widget.userMdpController.clear();
+    Future.delayed(const Duration(milliseconds: 100), () {
+      FocusScope.of(context).requestFocus(_userNomFocusNode);
       widget.userNomController.clear();
-      widget.userMdpController.clear();
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => Accueil(
-                  userNom: userNom,
-                  formulePrix: formulePrix,
-                )),
-      );
-    } else {
-      debugPrint('Invalid credentials');
-    }
+    });
   }
+}
+
 
   void _submitForm() async {
     if (_formKey.currentState!.validate()) {
@@ -229,7 +264,7 @@ class _ConnectState extends State<_Connect> {
                                 prefixIcon: Icon(
                                   Icons.boy,
                                   color: _userNomFocusNode.hasFocus
-                                      ? const Color.fromRGBO(230, 93, 43, 1.0)
+                                      ? Colors.grey
                                       : Colors.grey,
                                 ),
                               ),
@@ -276,7 +311,7 @@ class _ConnectState extends State<_Connect> {
                                 prefixIcon: Icon(
                                   Icons.lock,
                                   color: _userMdpFocusNode.hasFocus
-                                      ? const Color.fromRGBO(230, 93, 43, 1.0)
+                                      ? Colors.grey
                                       : Colors.grey,
                                 ),
                                 suffixIcon: IconButton(
@@ -285,7 +320,7 @@ class _ConnectState extends State<_Connect> {
                                         ? Icons.visibility_off
                                         : Icons.visibility,
                                     color: _userMdpFocusNode.hasFocus
-                                        ? const Color.fromRGBO(230, 93, 43, 1.0)
+                                        ? Colors.grey
                                         : Colors.grey,
                                   ),
                                   onPressed: _toggleUserMdpVisibility,
@@ -305,23 +340,34 @@ class _ConnectState extends State<_Connect> {
                             onTap: _submitForm,
                             child: Container(
                               height: 50,
+                              width: double.infinity,
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 12.0),
                               decoration: BoxDecoration(
-                                color: const Color.fromRGBO(230, 93, 43, 1.0),
-                                borderRadius: BorderRadius.circular(10),
+                                borderRadius: BorderRadius.circular(10.0),
+                                gradient: const LinearGradient(
+                                  colors: [
+                                    Color(0xFFBF360C),
+                                    Color(0xFFF57C00),
+                                    Color(0xFFBF360C),
+                                  ],
+                                  begin: Alignment.centerLeft,
+                                  end: Alignment.centerRight,
+                                ),
                               ),
                               child: const Center(
                                 child: Text(
-                                  "Connexion",
+                                  'SE CONNECTER',
                                   style: TextStyle(
+                                    fontSize: 17.5,
                                     color: Colors.black,
-                                    fontSize: 20,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
                               ),
                             ),
                           ),
-                          const SizedBox(height: 15),
+                          const SizedBox(height: 25),
                           GestureDetector(
                             onTap: () {
                               Navigator.push(
@@ -332,24 +378,6 @@ class _ConnectState extends State<_Connect> {
                             },
                             child: const Text(
                               "Condition générale d'utilisation",
-                              style: TextStyle(
-                                color: Colors.grey,
-                                fontSize: 10.0,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 5),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const Credit()),
-                              );
-                            },
-                            child: const Text(
-                              "Credit",
                               style: TextStyle(
                                 color: Colors.grey,
                                 fontSize: 10.0,
