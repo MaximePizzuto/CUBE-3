@@ -1,21 +1,23 @@
 // ignore_for_file: file_names
-
-/* ignore: file_names*/
 import 'package:flutter/material.dart';
 import 'package:myperform/accueil.dart';
 
-class Perso extends StatelessWidget {
-  const Perso(
+//faire une sur page entiere
+
+class ProfilPerso extends StatelessWidget {
+  const ProfilPerso(
       {Key? key,
       required this.userPrenom,
+      required this.userNom,
       required this.formulePrix,
       required this.formuleNom,
-      required this.userMdp})
+      required this.userMdp,})
       : super(key: key);
   final String formulePrix;
   final String userPrenom;
   final String formuleNom;
   final String userMdp;
+  final String userNom;
 
   @override
   Widget build(BuildContext context) {
@@ -26,10 +28,11 @@ class Perso extends StatelessWidget {
       ),
       home: _Perso(
         title: 'MyPerform',
-        userPrenom: userPrenom,
+        userNom: userNom,
         formulePrix: formulePrix,
         formuleNom: formuleNom,
         userMdp: userMdp,
+        userPrenom: userPrenom,
       ),
     );
   }
@@ -37,14 +40,16 @@ class Perso extends StatelessWidget {
 
 class _Perso extends StatefulWidget {
   final String title;
-  final String userPrenom;
+  final String userNom;
   final String formulePrix;
   final String formuleNom;
   final String userMdp;
+  final String userPrenom;
 
   const _Perso(
       {required this.title,
       required this.userPrenom,
+      required this.userNom,
       required this.formulePrix,
       required this.formuleNom,
       required this.userMdp});
@@ -52,7 +57,7 @@ class _Perso extends StatefulWidget {
   @override
   // ignore: no_logic_in_create_state
   _PersoState createState() => _PersoState(
-      userPrenom: userPrenom,
+      userPrenom: userNom,
       formulePrix: formulePrix,
       formuleNom: formuleNom,
       userMdp: userMdp);
@@ -63,7 +68,6 @@ class _PersoState extends State<_Perso> {
   final String formulePrix;
   final String formuleNom;
   final String ancienFormule = 'DUER';
-  final String userNom = 'POP';
   final String userEmail = 'exemple@gmail.com';
   final String userSociety = 'exemple';
   final String userMdp;
@@ -80,6 +84,8 @@ class _PersoState extends State<_Perso> {
       required this.formulePrix,
       required this.formuleNom,
       required this.userMdp});
+  final String userNom = 'POP';
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -384,10 +390,10 @@ class _PersoState extends State<_Perso> {
                           context,
                           MaterialPageRoute(
                             builder: (context) => Accueil(
-                              userPrenom: userPrenom,
                               formulePrix: formulePrix,
+                              userNom: userNom,
                               formuleNom: formuleNom,
-                              userMdp: userMdp,
+                              userPrenom: userPrenom,
                             ),
                           ),
                         );
