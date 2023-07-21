@@ -18,4 +18,7 @@ EXPOSE 5000
 # Instruction pour spécifier la commande par défaut à exécuter lors du démarrage du conteneur
 # CMD
 
+# Instruction pour définir un volume
+# VOLUME /app/data
+
 ENTRYPOINT [ "node", "index.js" ]

@@ -13,7 +13,7 @@ app.use(bodyParser.json());
 
 connectToDatabase();
 
-const userRoutes = require('./routes/recup_user.route');
+const userRoutes = require('./routes/User.route');
 
 app.use('/', userRoutes);
 
