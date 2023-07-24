@@ -12,9 +12,9 @@
   Tous les Users => http://localhost:5000/Users
   Un User par l'id => http://localhost:5000/User/:id
 
-- Suppression d'un User par l'id => http://localhost:5000/delete/:id
+- Suppression d'un User par l'id => http://localhost:5000/delete_User/:id
   
-- Ajout d'un utilisateur ( POSTMAN ) => http://localhost:5000/User/adduser => aller dans json puis ajouter les éléments d'un user =>
+- Ajout d'un utilisateur ( POSTMAN ) => http://localhost:5000/User/add_User => aller dans json puis ajouter les éléments d'un user =>
 
  {
   "Nom": "Maxime",
