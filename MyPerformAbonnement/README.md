@@ -1,41 +1,49 @@
 # Quasar App (myperformabonnement)
 
-A Quasar Project
+Installer and lancer un projet Quasar
 
-## Install the dependencies
+
+## Installer les dependances
 ```bash
-yarn
-# or
 npm install
 ```
 
-### Start the app in development mode (hot-code reloading, error reporting, etc.)
+
+## Installer Quasar et quasarCLI.
+```bash
+npm install -g @quasar/cli
+```
+
+
+### Installer une appli Quasar de base
+```bash
+npm init quasar
+
+Option: 
+Name MyPerformAbonnement
+without Typscript
+Without JSX
+Quasar CLI with Vite
+With Linter
+With Prettier
+```
+
+
+### Lancer l'application en mode développement (hot-code reloading, error reporting, etc.)
+### Depuis le repertoire créée lors de l'étape précédente
 ```bash
 quasar dev
 ```
 
 
-### Lint the files
-```bash
-yarn lint
-# or
-npm run lint
-```
-
-
-### Format the files
-```bash
-yarn format
-# or
-npm run format
-```
 
 
 
-### Build the app for production
+### Build l'application pour la production
 ```bash
 quasar build
 ```
+
 
 ### Customize the configuration
 See [Configuring quasar.config.js](https://v2.quasar.dev/quasar-cli-vite/quasar-config-js).
