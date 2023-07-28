@@ -56,15 +56,15 @@ User.findByIdAndDelete(userId)
 
 // Route pour ajouter un nouvel utilisateur
 router.post('/User/add_User', (req, res) => {
-  const { Nom, Prenom, Mail, Tel, Entreprise } = req.body;
+  const { Nom, Prenom, Mail, Tel, Entreprise, Mdp } = req.body;
 
   // Vérification que les champs requis sont présents dans la requête
-  if (!Nom || !Prenom || !Mail || !Tel || !Entreprise) {
+  if (!Nom || !Prenom || !Mail || !Tel || !Entreprise || !Mdp) {
     return res.status(400).json({ message: 'Tous les champs sont requis' });
   }
 
   // Création d'un nouvel utilisateur en utilisant le modèle User
-  const newUser = new User({Nom,Prenom,Mail,Tel,Entreprise,});
+  const newUser = new User({Nom,Prenom,Mail,Tel,Entreprise,Mdp,});
 
   // Sauvegarde du nouvel utilisateur dans la base de données
   newUser.save()

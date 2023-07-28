@@ -13,9 +13,13 @@ app.use(bodyParser.json());
 
 connectToDatabase();
 
-const userRoutes = require('./routes/User.route');
+const userRoutes = require('./routes/User.route'); //user
+// const userEntreprise = require('./routes/Entreprise.route'); //Entreprise
+// const userAbonnement = require('./routes/Abonnement.route'); // Abonnement
 
-app.use('/', userRoutes);
+app.use('/', userRoutes); //user
+// app.use('/', userEntreprise); //Entreprise
+// app.use('/', userAbonnement); //Abonnement
 
 
 

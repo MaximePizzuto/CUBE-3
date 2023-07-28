@@ -23,6 +23,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  Mdp: {
+    type: String,
+    required: true,
+  },
 });
 
 const User = mongoose.model('User', userSchema);
