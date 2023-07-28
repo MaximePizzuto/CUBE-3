@@ -5,7 +5,7 @@
         <q-toolbar-title>
           MyPerform
         </q-toolbar-title>
-
+        <!-- <div v-if="userEmail">{{ userEmail }}</div> -->
         <div>Abonnement</div>
       </q-toolbar>
     </q-header>
@@ -20,13 +20,19 @@
 
 <script>
 import { defineComponent, ref } from 'vue'
+import Cookies from 'js-cookie'
 
 
 
+// export default defineComponent({
+  // name: 'MainLayout',
+  //setup() {
+//     const userEmail = ref(Cookies.get('userEmail') || '')
 
-export default defineComponent({
-  name: 'MainLayout',
+//     return {
+//       userEmail
+//     }
+//   }
 
-
-})
+// })
 </script>
