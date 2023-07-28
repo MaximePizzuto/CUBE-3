@@ -36,7 +36,7 @@ router.get('/User/:id', (req, res) => {
 
 
 // Route pour supprimer un utilisateur par ID
-router.delete('/User/delete_User/:id', (req, res) => {
+router.delete('/User/delete/:id', (req, res) => {
   const userId = req.params.id;
 
 User.findByIdAndDelete(userId)
@@ -55,7 +55,7 @@ User.findByIdAndDelete(userId)
 
 
 // Route pour ajouter un nouvel utilisateur
-router.post('/User/add_User', (req, res) => {
+router.post('/User/adduser', (req, res) => {
   const { Nom, Prenom, Mail, Tel, Entreprise, Mdp } = req.body;
 
   // Vérification que les champs requis sont présents dans la requête
