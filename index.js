@@ -3,12 +3,14 @@ require('dotenv').config({ path: './configs/.env' });
 const PORT = process.env.PORT;
 const express = require('express');
 const bodyParser = require('body-parser');
-// const cors = require('cors');
+//multi origine
+const cors = require('cors');
 const connectToDatabase = require('./configs/server');
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-// app.use(cors());
+//app use cors
+app.use(cors());
 
 
 connectToDatabase();
