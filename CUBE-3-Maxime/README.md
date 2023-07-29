@@ -33,3 +33,6 @@
 
 
 #Installer les dépendences et le dotenv correctement
+
+ATTENTION !!! Pour que les verifications à l'inscription fonctionnent j'ai ajouté le package express-validator
+A installer avec npm install express-validator en BackEnd
