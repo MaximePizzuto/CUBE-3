@@ -1,13 +1,14 @@
 # Quasar App (myperformabonnement)
 
-Installer and lancer un projet Quasar
+Installer et lancer un projet Quasar
 
 
 ## Installer les dependances
 ```bash
 npm install
 ```
-
+ATTENTION !!! Pour que les verifications à l'inscription fonctionnent j'ai ajouté le package express-validator
+A installer avec npm install express-validator en BackEnd
 
 ## Installer Quasar et quasarCLI.
 ```bash
