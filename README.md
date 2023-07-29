@@ -33,3 +33,5 @@
 
 
 #Installer les dépendences et le dotenv correctement
+- npm i dotenv nodemon 
+- Creer le .env dans configs
