@@ -5,10 +5,10 @@
         <div class="text-h6">Inscription</div>
         <q-input outlined v-model="Nom" label="Nom" class="q-mt-md" />
         <q-input outlined v-model="Prenom" label="Prenom" class="q-mt-md" />
-        <q-input outlined v-model="Mail" label="E mail" class="q-mt-md" />
+        <q-input outlined v-model="Mail" label="E-mail" type="email" class="q-mt-md" :rules="[val => !!val || 'Email is required', val => /.+@.+\..+/.test(val) || 'Format de mail invalide']" />
         <q-input outlined v-model="Tel" label="Telephone" class="q-mt-md" />
         <q-input outlined v-model="Entreprise" label="Entreprise" class="q-mt-md" />
-        <q-input outlined v-model="Mdp" label="Mot de passe" type="password" class="q-mt-md" />
+        <q-input outlined v-model="Mdp" label="Mot de passe" type="password" class="q-mt-md" :rules="[val => !!val || 'Password is required', val => val.length >= 5 || 'Votre mot de passe doit contenir au moins 5']" />
         <q-input outlined v-model="confirmPassword" label="Confirmer mot de passe" type="password" class="q-mt-md" />
         <q-btn label="S'inscrire" color="primary" @click="register" class="q-mt-md" />
       </div>

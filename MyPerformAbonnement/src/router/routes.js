@@ -1,3 +1,5 @@
+import Cookies from 'js-cookie';
+
 const routes = [
   {
     path: '/',
@@ -6,7 +8,19 @@ const routes = [
       { path: '', component: () => import('pages/LoginPage.vue') },
       { path: '/login', component: () => import('pages/LoginPage.vue') },
       { path: '/signup', component: () => import('pages/SignUpPage.vue') },
-      { path: '/home', component: () => import('pages/HomePage.vue'), meta: { requiresAuth: true } },
+      { path: '/home',
+      component: () => import('layouts/MainLayout.vue'),
+      children: [
+        { path: '', component: () => import('pages/HomePage.vue') }
+      ],
+      beforeEnter: (to, from, next) => {
+        const isAuthenticated = !!Cookies.get('authToken'); // Vérifiez si l'utilisateur est authentifié
+        if (isAuthenticated) {
+          next(); // Si l'utilisateur est authentifié, continuez à la page d'accueil
+        } else {
+          next('/login'); // Sinon, redirigez l'utilisateur vers la page de connexion
+        }
+      } },
       // ... autres routes
     ]
   },

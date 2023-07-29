@@ -5,7 +5,7 @@
         <q-toolbar-title>
           MyPerform
         </q-toolbar-title>
-        <div v-if="userName && userFirstName">Bonjour, {{ userName }} {{ userFirstName }}!</div>
+        <div><q-btn v-if="isOnHomePage && userName && userFirstName" @click="logout" label="Déconnexion" /></div>
 
       </q-toolbar>
     </q-header>
@@ -19,20 +19,36 @@
 </template>
 
 <script>
-// import { defineComponent, ref } from 'vue'
-import Cookies from 'js-cookie'
-import { defineComponent } from 'vue';
+import { defineComponent, ref, watch } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
+import Cookies from 'js-cookie';
 
-export default defineComponent ({
-  data() {
+export default defineComponent({
+  setup() {
+    const route = useRoute();
+    const router = useRouter();
+    const userName = ref(Cookies.get('userName'));
+    const userFirstName = ref(Cookies.get('userFirstName'));
+    const isOnHomePage = ref(route.path === '/home');
+
+    // Mettez à jour isOnHomePage chaque fois que la route change
+    watch(route, () => {
+      isOnHomePage.value = route.path === '/home';
+    });
+
+    function logout() {
+      Cookies.remove('authToken', { sameSite: 'None', secure: true }); // Supprimez le token d'authentification
+      Cookies.remove('userName', { sameSite: 'None', secure: true }); // Supprimez le nom de l'utilisateur
+      Cookies.remove('userFirstName', { sameSite: 'None', secure: true }); // Supprimez le prénom de l'utilisateur
+      router.push('/login'); // Redirigez l'utilisateur vers la page de connexion
+    }
+
     return {
-      userName: '',
-      userFirstName: ''
+      userName,
+      userFirstName,
+      isOnHomePage,
+      logout
     };
-  },
-  created() {
-    this.userName = Cookies.get('userName'); // Récupérez le nom de l'utilisateur
-    this.userFirstName = Cookies.get('userFirstName'); // Récupérez le prénom de l'utilisateur
   }
 });
 </script>

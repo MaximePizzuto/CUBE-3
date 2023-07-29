@@ -11,7 +11,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 //app use cors allow tous les routes
 app.use(cors({
-  origin: 'http://localhost:9000' // Remplacez par l'URL de votre application Quasar
+  origin: 'http://localhost:9000' //URL de votre application Quasar
 }));
 
 

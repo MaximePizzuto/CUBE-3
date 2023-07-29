@@ -3,6 +3,7 @@ const router = express.Router();
 const User = require('../models/user.model');
 const bcrypt = require('bcryptjs'); // Pour le hachage du mot de passe
 const jwt = require('jsonwebtoken'); // Pour la création du token JWT
+const { check, validationResult } = require('express-validator');
 
 const jwtSecret = 'your_jwt_secret'; //
 
@@ -17,8 +18,6 @@ router.get('/Users', (req, res) => {
         res.status(400).json({ error: err.message },{ message: 'Aucun utilisateurs dans la collection !' });
       });
   });
-
-
 
 // Route pour récupérer un utilisateur par ID
 router.get('/User/:id', (req, res) => {
@@ -37,8 +36,6 @@ router.get('/User/:id', (req, res) => {
       });
   });
 
-
-
 // Route pour supprimer un utilisateur par ID
 router.delete('/User/delete/:id', (req, res) => {
   const userId = req.params.id;
@@ -55,8 +52,6 @@ User.findByIdAndDelete(userId)
     res.status(400).json({ error: err.message });
   });
 });
-
-
 
 // Route pour ajouter un nouvel utilisateur
 router.post('/User/adduser', (req, res) => {
@@ -80,8 +75,38 @@ router.post('/User/adduser', (req, res) => {
     });
 });
 
+
+
+
+
+
+
 // Route pour l'inscription
-router.post('/signup', async (req, res) => {
+router.post('/signup',
+[
+  // vérifiez que l'email n'est pas vide et qu'il a un format correct
+  check('Mail').isEmail().withMessage('Invalid email format'),
+  
+  // vérifiez que le mot de passe n'est pas vide et qu'il a au moins 5 caractères
+  check('Mdp').isLength({ min: 5 }).withMessage('Password must be at least 5 characters long'),
+  check('Nom').notEmpty().withMessage('Ce champs est requis'),
+  check('Prenom').notEmpty().withMessage('Ce champs est requis'),
+  check('Tel').notEmpty().withMessage('Ce champs est requis'),
+  check('Entreprise').notEmpty().withMessage('Ce champs est requis'),
+  // vous pouvez ajouter plus de vérifications ici pour les autres champs de votre formulaire
+  
+],
+ async (req, res) => {
+  const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const user = await User.findOne({ Mail: req.body.Mail });
+    if (user) {
+      return res.status(400).json({ message: 'Votre mail est déjà pris' });
+    }
+
   const { Nom, Prenom, Mail, Tel, Entreprise, Mdp } = req.body;
 
   // Hachez le mot de passe avant de le stocker

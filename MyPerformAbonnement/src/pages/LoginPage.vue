@@ -38,12 +38,12 @@
             console.log(`Utilisateur connecté avec succès: ${response.data.user}`);
             
             // Assuming the response has a token field with the user's token
-            Cookies.set('authToken', response.data.token);
+            Cookies.set('authToken', response.data.token, { sameSite: 'None', secure: true });
 
             // Storing the user's email in a cookie.
-            Cookies.set('userEmail', this.Mail);
-            Cookies.set('userName', response.data.user.Nom); // Stockez le nom de l'utilisateur
-            Cookies.set('userFirstName', response.data.user.Prenom); // Stockez le prénom de l'utilisateur
+            Cookies.set('userEmail', this.Mail, { sameSite: 'None', secure: true });
+            Cookies.set('userName', response.data.user.Nom, { sameSite: 'None', secure: true }); // Stockez le nom de l'utilisateur
+            Cookies.set('userFirstName', response.data.user.Prenom, { sameSite: 'None', secure: true }); // Stockez le prénom de l'utilisateur
             
             // Redirect the user to the home page
             this.$router.push('/home');
