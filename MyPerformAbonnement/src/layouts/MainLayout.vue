@@ -5,8 +5,8 @@
         <q-toolbar-title>
           MyPerform
         </q-toolbar-title>
-        <!-- <div v-if="userEmail">{{ userEmail }}</div> -->
-        <div>Abonnement</div>
+        <div v-if="userName && userFirstName">Bonjour, {{ userName }} {{ userFirstName }}!</div>
+
       </q-toolbar>
     </q-header>
 
@@ -19,20 +19,20 @@
 </template>
 
 <script>
-import { defineComponent, ref } from 'vue'
+// import { defineComponent, ref } from 'vue'
 import Cookies from 'js-cookie'
+import { defineComponent } from 'vue';
 
-
-
-// export default defineComponent({
-  // name: 'MainLayout',
-  //setup() {
-//     const userEmail = ref(Cookies.get('userEmail') || '')
-
-//     return {
-//       userEmail
-//     }
-//   }
-
-// })
+export default defineComponent ({
+  data() {
+    return {
+      userName: '',
+      userFirstName: ''
+    };
+  },
+  created() {
+    this.userName = Cookies.get('userName'); // Récupérez le nom de l'utilisateur
+    this.userFirstName = Cookies.get('userFirstName'); // Récupérez le prénom de l'utilisateur
+  }
+});
 </script>

@@ -1,13 +1,27 @@
 <template>
     <q-page class="flex flex-center">
       <div>
-        <div class="text-h6">Bienvenue sur MyPerform-Abonnement</div>
+        <div class="text-h6">Bienvenue sur MyPerform !</div>
         <q-img src="~assets/my-perform.png" alt="Logo" class="q-my-md"></q-img>
       </div>
     </q-page>
   </template>
   
   <script>
-  export default {};
+  import { defineComponent } from 'vue';
+  import Cookies from 'js-cookie';
+
+//  export default defineComponent ({
+//   data() {
+//     return {
+//       userName: '',
+//       userFirstName: ''
+//     };
+//   },
+//   created() {
+//     this.userName = Cookies.get('userName'); // Récupérez le nom de l'utilisateur
+//     this.userFirstName = Cookies.get('userFirstName'); // Récupérez le prénom de l'utilisateur
+//   }
+// });
   </script>
   

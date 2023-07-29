@@ -2,7 +2,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie'; // Import js-cookie
 
 const api = axios.create({
-  baseURL: 'https://localhost:5000', // I'm using reqres.in as a mock API for demonstration purposes
+  baseURL: 'http://localhost:5000', // I'm using reqres.in as a mock API for demonstration purposes
 });
 
 api.interceptors.request.use((config) => {

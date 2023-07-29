@@ -28,20 +28,22 @@
     methods: {
       async login() {
         try {
-          const response = await api.get('/Users', { // Replace '/login' with your API's login endpoint
+          const response = await api.post('/login', { // Replace '/login' with your API's login endpoint
             Mail: this.Mail, // I'm assuming this.email is the user's email
-            Mdp: this.Mdp
+            Mdp: this.Mdp,
           });
           
           if (response.data) {
             // Assuming the response has a data field with the user's information
-            console.log(`Utilisateur connecté avec succès: ${response.data}`);
+            console.log(`Utilisateur connecté avec succès: ${response.data.user}`);
             
             // Assuming the response has a token field with the user's token
             Cookies.set('authToken', response.data.token);
 
             // Storing the user's email in a cookie.
             Cookies.set('userEmail', this.Mail);
+            Cookies.set('userName', response.data.user.Nom); // Stockez le nom de l'utilisateur
+            Cookies.set('userFirstName', response.data.user.Prenom); // Stockez le prénom de l'utilisateur
             
             // Redirect the user to the home page
             this.$router.push('/home');

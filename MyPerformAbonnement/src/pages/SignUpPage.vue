@@ -42,7 +42,7 @@ export default defineComponent({
       }
 
       try {
-        const response = await api.post('/Users/adduser', { // Replace '/register' with your API's registration endpoint
+        const response = await api.post('/signup', { // Replace '/register' with your API's registration endpoint
         Nom: this.Nom,
         Prenom: this.Prenom,  
         Mail: this.Mail, // I'm assuming this.email is the user's email
@@ -53,10 +53,7 @@ export default defineComponent({
         
         if (response.data) {
           // Assuming the response has a data field with the user's information
-          console.log(`Utilisateur inscrit avec succès: ${response.data}`);
-          
-          // Assuming the response has a token field with the user's token
-          Cookies.set('authToken', response.data.token);
+          console.log(`Utilisateur inscrit avec succès: ${response.data.user}`);
           
           // Redirect the user to the login page
           this.$router.push('/login');
