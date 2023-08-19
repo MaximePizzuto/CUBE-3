@@ -8,6 +8,10 @@ const routes = [
       { path: '', component: () => import('pages/LoginPage.vue') },
       { path: '/login', component: () => import('pages/LoginPage.vue') },
       { path: '/signup', component: () => import('pages/SignUpPage.vue') },
+      { path: '/aboencours', component: () => import('pages/AboEnCours.vue') },
+      { path: '/gerermonabo', component: () => import('pages/GererMonAbo.vue') },
+      { path: '/monhistorique', component: () => import('pages/MonHistorique.vue') },
+      { path: '/mafacture', component: () => import('pages/MaFacture.vue') },
       { path: '/home',
       component: () => import('layouts/MainLayout.vue'),
       children: [
