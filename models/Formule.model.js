@@ -6,24 +6,15 @@ const FormuleSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  Prenom: {
+  Date_Crea: {
     type: String,
     required: true,
   },
-  Mail: {
-    type: String,
-    required: true,
-    unique: true,
-  },
-  Tel: {
+  Date_modif: {
     type: String,
     required: true,
   },
-  Entreprise: {
-    type: String,
-    required: true,
-  },
-  Mdp: {
+  Description: {
     type: String,
     required: true,
   },

@@ -6,24 +6,23 @@ const EntrepriseSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  Prenom: {
+  Localisation: {
     type: String,
     required: true,
   },
-  Mail: {
+  Employes: {
     type: String,
     required: true,
-    unique: true,
+  },
+  Date_Crea: {
+    type: String,
+    required: true,
+  },
+  Date_modif: {
+    type: String,
+    required: true,
   },
   Tel: {
-    type: String,
-    required: true,
-  },
-  Entreprise: {
-    type: String,
-    required: true,
-  },
-  Mdp: {
     type: String,
     required: true,
   },
