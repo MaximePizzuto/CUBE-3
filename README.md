@@ -12,7 +12,7 @@
   Tous les Users => http://localhost:5000/Users
   Un User par l'id => http://localhost:5000/User/:id
 
-- Suppression d'un User par l'id => http://localhost:5000/User/delete/64ba8aa4accacb38d4707d15
+- Suppression d'un User par l'id => http://localhost:5000/User/delete/:id
   
 - Ajout d'un utilisateur ( POSTMAN ) => http://localhost:5000/User/adduser => aller dans json puis ajouter les éléments d'un user =>
 
@@ -35,3 +35,11 @@
 #Installer les dépendences et le dotenv correctement
 - npm i dotenv nodemon 
 - Creer le .env dans configs
+
+Facture ++
+
+en cours : 
+
++++ Abo
++++ Entreprise
++++ Formule
