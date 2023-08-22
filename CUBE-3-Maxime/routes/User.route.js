@@ -1,11 +1,11 @@
+/*
 const express = require('express');
 const router = express.Router();
 const User = require('../models/user.model');
-const bcrypt = require('bcryptjs'); // Pour le hachage du mot de passe
-const jwt = require('jsonwebtoken'); // Pour la création du token JWT
-const { check, validationResult } = require('express-validator');
+const bcrypt = require('bcrypt');
 
-const jwtSecret = 'your_jwt_secret'; //
+
+
 
 // Route pour récupérer tous les utilisateurs
 router.get('/Users', (req, res) => {
@@ -18,6 +18,8 @@ router.get('/Users', (req, res) => {
         res.status(400).json({ error: err.message },{ message: 'Aucun utilisateurs dans la collection !' });
       });
   });
+
+
 
 // Route pour récupérer un utilisateur par ID
 router.get('/User/:id', (req, res) => {
@@ -36,6 +38,8 @@ router.get('/User/:id', (req, res) => {
       });
   });
 
+
+
 // Route pour supprimer un utilisateur par ID
 router.delete('/User/delete/:id', (req, res) => {
   const userId = req.params.id;
@@ -53,36 +57,80 @@ User.findByIdAndDelete(userId)
   });
 });
 
+
+
 // Route pour ajouter un nouvel utilisateur
-router.post('/User/adduser', (req, res) => {
+router.post('/User/signup', async (req, res) => {
   const { Nom, Prenom, Mail, Tel, Entreprise, Mdp } = req.body;
 
-  // Vérification que les champs requis sont présents dans la requête
-  if (!Nom || !Prenom || !Mail || !Tel || !Entreprise || !Mdp) {
-    return res.status(400).json({ message: 'Tous les champs sont requis' });
-  }
+  try {
+    // Vérification que les champs requis sont présents dans la requête
+    if (!Nom || !Prenom || !Mail || !Tel || !Entreprise || !Mdp) {
+      return res.status(400).json({ message: 'Tous les champs sont requis' });
+    }
 
-  // Création d'un nouvel utilisateur en utilisant le modèle User
-  const newUser = new User({Nom,Prenom,Mail,Tel,Entreprise,Mdp,});
+    // Hasher le mot de passe avec bcrypt
+    const hashedPassword = await bcrypt.hash(Mdp, 10);
 
-  // Sauvegarde du nouvel utilisateur dans la base de données
-  newUser.save()
-    .then((user) => {
-      res.status(201).json(user); // Renvoie l'utilisateur créé avec le statut 201 (Created)
-    })
-    .catch((err) => {
-      res.status(500).json({ error: err.message }); // Erreur de serveur en cas de problème de sauvegarde
+    // Création d'un nouvel utilisateur en utilisant le modèle User
+    const newUser = new User({
+      Nom,
+      Prenom,
+      Mail,
+      Tel,
+      Entreprise,
+      Mdp: hashedPassword,
     });
+
+    // Sauvegarde du nouvel utilisateur dans la base de données
+    const savedUser = await newUser.save();
+
+    res.status(201).json(savedUser); // Renvoie l'utilisateur créé avec le statut 201 (Created)
+  } catch (err) {
+    res.status(500).json({ error: err.message }); // Erreur de serveur en cas de problème de sauvegarde
+  }
 });
 
+// Route pour connecter un utilisateur
+router.post('/User/login', async (req, res) => {
+  const { Mail, Mdp } = req.body;
+
+  try {
+    const user = await User.findOne({ Mail });
+
+    if (!user) {
+      return res.status(401).json({ message: 'Adresse e-mail non trouvée' });
+    }
+
+    const isPasswordValid = await bcrypt.compare(Mdp, user.Mdp);
+
+    if (!isPasswordValid) {
+      return res.status(401).json({ message: 'Adresse e-mail ou mot de passe incorrect' });
+    }
+
+    res.json({ message: 'Connexion réussie' });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+module.exports = router;
 
 
 
+------------------ANCIEN CODE -----------------------*/
+const express = require('express');
+const router = express.Router();
+const User = require('../models/user.model');
+const bcrypt = require('bcryptjs'); // Pour le hachage du mot de passe
+const jwt = require('jsonwebtoken'); // Pour la création du token JWT
+const { check, validationResult } = require('express-validator');
 
+const jwtSecret = 'your_jwt_secret'; //
 
 
 // Route pour l'inscription
-router.post('/signup',
+router.post('/User/signup',
 [
   // vérifiez que l'email n'est pas vide et qu'il a un format correct
   check('Mail').isEmail().withMessage('Invalid email format'),
@@ -127,7 +175,7 @@ router.post('/signup',
 });
 
 // Route pour la connexion
-router.post('/login', async (req, res) => {
+router.post('/User/login', async (req, res) => {
   const { Mail, Mdp } = req.body;
 
   const user = await User.findOne({ Mail });
@@ -150,3 +198,5 @@ router.post('/login', async (req, res) => {
 
 
   module.exports = router;
+  
+ 

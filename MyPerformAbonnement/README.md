@@ -33,7 +33,7 @@ With Prettier
 ### Lancer l'application en mode développement (hot-code reloading, error reporting, etc.)
 ### Depuis le repertoire créée lors de l'étape précédente
 ```bash
-quasar dev
+quasar dev / npm run dev
 ```
 
 

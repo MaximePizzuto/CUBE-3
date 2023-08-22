@@ -1,8 +1,3 @@
-/////////////////////////////////////////
-
-////////////// PAS ENCORE FINI //////////
-
-/////////////////////////////////////////
 const express = require('express');
 const router = express.Router();
 const Abonnement = require('../models/Abonnement.model');
@@ -23,9 +18,9 @@ router.get('/Abonnements', (req, res) => {
 
 // Route pour récupérer un Abonnement par ID
 router.get('/Abonnement/:id', (req, res) => {
-    const userId = req.params.id;
+    const id_abonnement = req.params.id;
     
-    Abonnement.findById(userId)
+    Abonnement.findById(id_abonnement)
       .then((Abonnement) => {
         if (!Abonnement) {
           res.status(404).json({ message: 'Abonnement non trouvé' });
@@ -41,10 +36,10 @@ router.get('/Abonnement/:id', (req, res) => {
 
 
 // Route pour supprimer un Abonnement par ID
-router.delete('/User/delete_Abonnement/:id', (req, res) => {
-  const userId = req.params.id;
+router.delete('/Abonnement/delete_Abonnement/:id', (req, res) => {
+  const id_abonnement = req.params.id;
 
-Abonnement.findByIdAndDelete(userId)
+Abonnement.findByIdAndDelete(id_abonnement)
   .then((Abonnement) => {
     if (!Abonnement) {
       res.status(404).json({ message: 'Abonnement introuvable' });
@@ -61,15 +56,15 @@ Abonnement.findByIdAndDelete(userId)
 
 // Route pour ajouter un nouvel Abonnement
 router.post('/Abonnement/add_Abonnement', (req, res) => {
-  const { Nom, Prenom, Mail, Tel, Entreprise } = req.body;
+  const { id_abonnement, id_user, Nom_user, Tel_user, Date_Crea, Date_modif, Durée_souscription, Prix_TTC } = req.body;
 
   // Vérification que les champs requis sont présents dans la requête
-  if (!Nom || !Prenom || !Mail || !Tel || !Entreprise) {
+  if (!id_abonnement || !id_user || !Nom_user || !Tel_user || !Date_Crea || !Date_modif || !Durée_souscription || !Prix_TTC) {
     return res.status(400).json({ message: 'Tous les champs sont requis' });
   }
 
   // Création d'un nouvel Abonnement en utilisant le modèle User
-  const newAbonnement = new Abonnement({Nom,Prenom,Mail,Tel,Entreprise,});
+  const newAbonnement = new Abonnement({id_abonnement, id_user, Nom_user, Tel_user, Date_Crea, Date_modif, Durée_souscription, Prix_TTC});
 
   // Sauvegarde du nouvel Abonnement dans la base de données
   newAbonnement.save()

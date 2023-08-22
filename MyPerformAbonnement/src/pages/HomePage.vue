@@ -30,6 +30,7 @@
  export default defineComponent ({
   data() {
     return {
+      user: [],
       userName: '',
       userFirstName: '',
       gridItems: [

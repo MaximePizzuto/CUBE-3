@@ -28,7 +28,7 @@
     methods: {
       async login() {
         try {
-          const response = await api.post('/login', { // Replace '/login' with your API's login endpoint
+          const response = await api.post('/User/login', { // Replace '/login' with your API's login endpoint
             Mail: this.Mail, // I'm assuming this.email is the user's email
             Mdp: this.Mdp,
           });

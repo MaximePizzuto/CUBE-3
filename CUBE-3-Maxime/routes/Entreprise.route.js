@@ -1,8 +1,3 @@
-/////////////////////////////////////////
-
-////////////// PAS ENCORE FINI //////////
-
-/////////////////////////////////////////
 const express = require('express');
 const router = express.Router();
 const Entreprise = require('../models/Entreprise.model');
@@ -23,9 +18,9 @@ router.get('/Entreprises', (req, res) => {
 
 // Route pour récupérer un Entreprise par ID
 router.get('/Entreprise/:id', (req, res) => {
-    const userId = req.params.id;
+    const Entreprise_id = req.params.id;
     
-    Entreprise.findById(userId)
+    Entreprise.findById(Entreprise_id)
       .then((Entreprise) => {
         if (!Entreprise) {
           res.status(404).json({ message: 'Entreprise non trouvé' });
@@ -41,10 +36,10 @@ router.get('/Entreprise/:id', (req, res) => {
 
 
 // Route pour supprimer un Entreprise par ID
-router.delete('/User/delete_Entreprise/:id', (req, res) => {
-  const userId = req.params.id;
+router.delete('/Entreprise/delete_Entreprise/:id', (req, res) => {
+  const Entreprise_id = req.params.id;
 
-Entreprise.findByIdAndDelete(userId)
+Entreprise.findByIdAndDelete(Entreprise_id)
   .then((Entreprise) => {
     if (!Entreprise) {
       res.status(404).json({ message: 'Entreprise introuvable' });
@@ -61,15 +56,15 @@ Entreprise.findByIdAndDelete(userId)
 
 // Route pour ajouter un nouvel Entreprise
 router.post('/Entreprise/add_Entreprise', (req, res) => {
-  const { Nom, Prenom, Mail, Tel, Entreprise } = req.body;
+  const { Entreprise_id, Nom_Entreprise, Localisation, Employes, Date_Crea, Date_modif, Tel } = req.body;
 
   // Vérification que les champs requis sont présents dans la requête
-  if (!Nom || !Prenom || !Mail || !Tel || !Entreprise) {
+  if (!Entreprise_id || !Nom_Entreprise || !Localisation || !Employes || !Date_Crea || !Date_modif || !Tel) {
     return res.status(400).json({ message: 'Tous les champs sont requis' });
   }
 
   // Création d'un nouvel Entreprise en utilisant le modèle User
-  const newEntreprise = new Entreprise({Nom,Prenom,Mail,Tel,Entreprise,});
+  const newEntreprise = new Entreprise({Entreprise_id, Nom_Entreprise, Localisation, Employes, Date_Crea, Date_modif, Tel});
 
   // Sauvegarde du nouvel Entreprise dans la base de données
   newEntreprise.save()

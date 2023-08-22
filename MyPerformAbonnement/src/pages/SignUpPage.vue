@@ -42,7 +42,7 @@ export default defineComponent({
       }
 
       try {
-        const response = await api.post('/signup', { // Replace '/register' with your API's registration endpoint
+        const response = await api.post('/User/signup', { // Replace '/register' with your API's registration endpoint
         Nom: this.Nom,
         Prenom: this.Prenom,  
         Mail: this.Mail, // I'm assuming this.email is the user's email
