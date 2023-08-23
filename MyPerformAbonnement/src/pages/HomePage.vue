@@ -36,6 +36,7 @@
   import { defineComponent } from 'vue';
   import Cookies from 'js-cookie';
   import api from '../services/api';
+  
 
  export default defineComponent ({
   data() {
@@ -67,7 +68,7 @@
     api.get('/User/' + userID).then(response => {
       this.userobjet = response.data;
     }).catch(error => {
-      console.error('Erreur lors de la récupération de l\'utilisateur : ', error);
+      console.error('Erreur lors de la récupération de l utilisateur : ', error);
     });
   }
 

@@ -56,7 +56,7 @@ export default defineComponent({
     function logout() {
       Cookies.remove('authToken', { sameSite: 'None', secure: true }); // Supprimez le token d'authentification
       Cookies.remove('userID', { sameSite: 'None', secure: true }); // Supprimez le nom de l'utilisateur
-      router.push('/login'); // Redirigez l'utilisateur vers la page de connexion
+      router.push('/login') // Redirigez l'utilisateur vers la page de connexion
     }
 
     return {
