@@ -1,9 +1,18 @@
 <template>
     <q-page class="home-container">
       <div class="message-bienvenue">
-        <div class="text-h6" v-if="userName && userFirstName">Bienvenue {{ userName }} {{ userFirstName }}, ici vous pouvez gérer tous les détails concernant votre abonnement</div>
+        <div class="text-h6">Bienvenue {{ userobjet.Nom }} {{ userobjet.Prenom }}, ici vous pouvez gérer tous les détails concernant votre abonnement</div>
       </div>
       <div class="container-logo">
+
+       <!-- <div>
+    <h1>Liste des utilisateurs</h1>
+    <ul>
+      <li v-for="(user, index ) in userList" :key="index">
+        {{ user.Nom }} {{ user.Prenom }}
+      </li>
+    </ul>
+  </div>-->
        
       </div>
         <!-- Grille 2x4 -->
@@ -26,13 +35,13 @@
   <script>
   import { defineComponent } from 'vue';
   import Cookies from 'js-cookie';
+  import api from '../services/api';
 
  export default defineComponent ({
   data() {
     return {
-      user: [],
-      userName: '',
-      userFirstName: '',
+      userList: [],
+      userobjet: [],
       gridItems: [
       { text: 'Abonnement en cours', iconName: 'card_membership', bgColor: 'darkblue', route: '/aboencours' },
       { text: 'Voir ma facture', iconName: 'description', bgColor: 'darkgreen', route: '/mafacture' },
@@ -43,10 +52,25 @@
     ]
     };
   },
-  created() {
-    this.userName = Cookies.get('userName'); // Récupérez le nom de l'utilisateur
-    this.userFirstName = Cookies.get('userFirstName'); // Récupérez le prénom de l'utilisateur
+  
+
+  mounted() {
+    // Exemple avec une requête HTTP à une API (axios est utilisé ici, assurez-vous qu'il est installé) :
+    const userID = Cookies.get('userID');
+
+    api.get('/Users').then(response => {
+      this.userList = response.data;
+    }).catch(error => {
+      console.error('Erreur lors de la récupération des utilisateurs : ', error);
+    });
+
+    api.get('/User/' + userID).then(response => {
+      this.userobjet = response.data;
+    }).catch(error => {
+      console.error('Erreur lors de la récupération de l\'utilisateur : ', error);
+    });
   }
+
 });
   </script>
   

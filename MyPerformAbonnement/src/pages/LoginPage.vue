@@ -29,7 +29,7 @@
       async login() {
         try {
           const response = await api.post('/User/login', { // Replace '/login' with your API's login endpoint
-            Mail: this.Mail, // I'm assuming this.email is the user's email
+            Mail: this.Mail,
             Mdp: this.Mdp,
           });
           
@@ -39,6 +39,9 @@
             
             // Assuming the response has a token field with the user's token
             Cookies.set('authToken', response.data.token, { sameSite: 'None', secure: true });
+            
+            //ON stock l'id d'utilisateur pour récupérer ses données.
+            Cookies.set('userID', response.data.user._id, { sameSite: 'None', secure: true })
 
             // Storing the user's email in a cookie.
             Cookies.set('userEmail', this.Mail, { sameSite: 'None', secure: true });

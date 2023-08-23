@@ -1,4 +1,3 @@
-/*
 const express = require('express');
 const router = express.Router();
 const User = require('../models/user.model');
@@ -91,7 +90,145 @@ router.post('/User/signup', async (req, res) => {
   }
 });
 
+// Route pour la connexion
+router.post('/User/login', async (req, res) => {
+  const { Mail, Mdp } = req.body;
+
+  // Convertir l'adresse e-mail en minuscules
+  const normalizedMail = Mail.toLowerCase();
+
+  const user = await User.findOne({ Mail: normalizedMail });
+  if (!user) {
+    return res.status(400).json({ message: 'Email incorrect' });
+  }
+
+  const isPasswordCorrect = await bcrypt.compare(Mdp, user.Mdp);
+  if (!isPasswordCorrect) {
+    return res.status(400).json({ message: 'Mot de passe incorrect' });
+  }
+
+  // Ajouter une réponse réussie
+  res.status(200).json({ message: 'Connexion réussie', user: user });
+});
+
+
+
+
+// Route pour la modification d'un utilisateur par ID
+router.put('/User/update/:id', async (req, res) => {
+  const userId = req.params.id;
+
+  try {
+    const { Nom, Prenom, Mail, Tel, Entreprise, Mdp } = req.body;
+
+    // Vérification que les champs requis sont présents dans la requête
+    if (!Nom || !Prenom ||  !Mail ||  !Tel ||  !Entreprise || !Mdp) {
+      return res.status(400).json({ message: 'Tous les champs sont requis' });
+    }
+
+    // Hasher le nouveau mot de passe avec bcrypt
+    const hashedPassword = await bcrypt.hash(Mdp, 10);
+
+    // Mettre à jour l'utilisateur dans la base de données
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      {
+        Nom,
+        Prenom,
+        Mail,
+        Tel,
+        Entreprise,
+        Mdp: hashedPassword,
+      },
+      { new: true } // Renvoie le document mis à jour plutôt que l'ancien
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: 'Utilisateur introuvable' });
+    }
+
+    res.status(200).json(updatedUser); // Renvoie l'utilisateur mis à jour
+  } catch (err) {
+    res.status(500).json({ error: err.message }); // Erreur de serveur en cas de problème de mise à jour
+  }
+});
+
+module.exports = router;
+// Vous pouvez appeler cette route via une requête HTTP PUT en fournissant l'ID de l'utilisateur dans l'URL et en incluant les nouvelles données dans le corps de la requête au format JSON. Par exemple :
+
+// URL : http://localhost:5000/User/update/ID_DE_L_UTILISATEUR
+// Méthode : PUT
+// Corps en JSON :
+
+// json
+
+// {
+//   "Nom": "NouveauNom",
+//   "Prenom": "NouveauPrenom",
+//   "Mail": "nouveau@mail.com",
+//   "Tel": "NouveauNumTel",
+//   "Entreprise": "NouvelleEntreprise",
+//   "Mdp": "nouveaumotdepasse"
+// }
+
+// Assurez-vous d'adapter cette fonctionnalité en fonction de vos besoins spécifiques et de la structure de votre base de données.
+
+
+
+// Route pour la modification d'un champ spécifique d'un utilisateur par ID
+router.patch('/User/unique_update/:id', async (req, res) => {
+  const userId = req.params.id;
+  const updateData = req.body; // Les données de mise à jour
+
+  try {
+    // Mettre à jour l'utilisateur dans la base de données
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      updateData,
+      { new: true } // Renvoie le document mis à jour plutôt que l'ancien
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: 'Utilisateur introuvable' });
+    }
+
+    res.status(200).json(updatedUser); // Renvoie l'utilisateur mis à jour
+  } catch (err) {
+    res.status(500).json({ error: err.message }); // Erreur de serveur en cas de problème de mise à jour
+  }
+});
+
+// Dans cette version, vous n'avez pas besoin de spécifier tous les champs à mettre à jour dans le corps de la requête. Au lieu de cela, vous pouvez fournir uniquement les champs que vous souhaitez mettre à jour. Par exemple, si vous voulez simplement mettre à jour le champ "Nom", vous pouvez envoyer une requête HTTP PATCH comme suit :
+
+// URL : http://localhost:5000/User/update/ID_DE_L_UTILISATEUR
+// Méthode : PATCH
+// Corps en JSON :
+
+// json
+
+// {
+//   "Nom": "NouveauNom"
+// }
+
+// L'objet JSON que vous envoyez dans le corps de la requête détermine quels champs seront mis à jour dans l'utilisateur.
+
+// N'oubliez pas d'adapter cette approche en fonction de vos besoins spécifiques et de la structure de votre base de données.
+
+
+
+
+
+
+
+
+
+
+
+
+/*------------------ANCIEN CODE -----------------------
+
 // Route pour connecter un utilisateur
+
 router.post('/User/login', async (req, res) => {
   const { Mail, Mdp } = req.body;
 
@@ -114,11 +251,12 @@ router.post('/User/login', async (req, res) => {
   }
 });
 
-module.exports = router;
 
 
 
-------------------ANCIEN CODE -----------------------*/
+
+
+
 const express = require('express');
 const router = express.Router();
 const User = require('../models/user.model');
@@ -199,4 +337,4 @@ router.post('/User/login', async (req, res) => {
 
   module.exports = router;
   
- 
+ */

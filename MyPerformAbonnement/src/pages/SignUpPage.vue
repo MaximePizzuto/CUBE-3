@@ -56,7 +56,7 @@ export default defineComponent({
           console.log(`Utilisateur inscrit avec succès: ${response.data.user}`);
           
           // Redirect the user to the login page
-          this.$router.push('/login');
+          this.$router.push('/User/login');
         }
       } catch (error) {
         console.log("Une erreur s'est produite lors de l'enregistrement");
