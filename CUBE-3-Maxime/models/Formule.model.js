@@ -7,15 +7,19 @@ const FormuleSchema = new mongoose.Schema({
     required: true,
   },
   Date_Crea: {
-    type: String,
+    type: Date,
     required: true,
   },
   Date_modif: {
-    type: String,
+    type: Date,
     required: true,
   },
   Description: {
     type: String,
+    required: true,
+  },
+  PrixFormule: {
+    type: Number,
     required: true,
   },
 });

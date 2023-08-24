@@ -2,72 +2,95 @@
     <q-page class="q-pa-md">
       <q-card>
         <q-card-section>
-          <div class="text-h6">Formule en cours: {{ currentFormule.nom }}</div>
-          <div class="text-subtitle1">{{ currentFormule.prix }}€/mois</div>
+          <div class="text-h6">Formule en cours: {{ currentFormule.Nom }}</div>
+          <div class="text-subtitle1">{{ currentFormule.PrixFormule }}€/mois</div>
         </q-card-section>
       </q-card>
   
-      <q-card v-for="formule in formules" :key="formule.nom" class="q-mt-md">
+      <q-card v-for="(formule, index ) in allFormules" :key="index" class="q-mt-md">
         <q-card-section>
-          <div class="text-h5">{{ formule.nom }}</div>
-          <div>{{ formule.description }}</div>
-          <div class="text-subtitle1">{{ formule.prix }}€/mois</div>
+          <div class="text-h5">{{ formule.Nom }}</div>
+          <div>{{ formule.Description }}</div>
+          <div class="text-subtitle1">{{ formule.PrixFormule }}€/mois</div>
         </q-card-section>
         <q-card-actions>
-          <q-btn label="Choisir cette formule" @click="choisirFormule(formule)"/>
+          <q-btn label="Choisir cette formule" @click="createSubscription(formule)"/>
         </q-card-actions>
       </q-card>
     </q-page>
   </template>
   
   <script>
-  export default {
+  import { defineComponent } from 'vue';
+  import Cookies from 'js-cookie';
+  import api from '../services/api';
+
+
+  export default defineComponent ({
     data() {
       return {
         currentFormule: {
-          nom: "DUER",
-          prix: 15
         },
-        formules: [
-          {
-            nom: "DUER",
-            description: "Réservée au petites entreprises.",
-            prix: 15
-          },
-          {
-            nom: "PRMO",
-            description: "1 module au choix sauf le module 'Action'.",
-            prix: 50
-          },
-          {
-            nom: "AMELIORATION",
-            description: "1 module au choix + module 'Action'.",
-            prix: 80
-          },
-          {
-            nom: "PERFORMANCE",
-            description: "Module 'Anomalie' ou 'risque' au choix + modules 'Signalement', 'Audit' et 'Action'.",
-            prix: 120
-          },
-          {
-            nom: "PREVENTION",
-            description: "Modules 'Risque', 'Accident', 'Signalement', 'Échéance' et 'Action'.",
-            prix: 150
-          },
-          {
-            nom: "EXCELLENCE",
-            description: "Accès à tous les modules.",
-            prix: 200
-          }
-        ]
+        userobjet: [],
+        allFormules: [],
       };
     },
+    
+    mounted() {
+      api.get('/Formule').then(response => {
+          this.allFormules = response.data;
+      }).catch(error => {
+          console.error('Erreur lors de la récupération des utilisateurs : ', error);
+      });
+
+      const userID = Cookies.get('userID');
+      api.get('/User/' + userID).then(response => {
+          this.userobjet = response.data;
+      }).catch(error => {
+          console.error('Erreur lors de la récupération de l utilisateur : ', error);
+      });
+    },
+
     methods: {
-      choisirFormule(formule) {
-        this.currentFormule = formule;
-        // Ici, vous pouvez également mettre à jour les détails d'abonnement en conséquence
-        // par exemple, en utilisant une requête API ou en mettant à jour un store Vuex.
-      }
+      async createSubscription(formule) {
+    try {
+        // Récupérez les données de l'utilisateur
+        const userID = Cookies.get('userID');
+       // Supposant que l'ID de l'utilisateur est stocké dans un cookie
+        const userResponse = await api.get(`/User/${userID}`);
+        
+        if (userResponse.status !== 200) {
+            console.log("Erreur lors de la récupération des données de l'utilisateur.");
+            return;
+        }
+
+        const userData = userResponse.data;
+
+        // Créez l'abonnement avec les données de l'utilisateur
+        const subscriptionData = {
+            id_user: userID,
+            Nom_user: userData.Nom + ' ' + userData.Prenom,
+            Tel_user: userData.Tel,
+            Date_Crea: new Date(),
+            Date_modif: new Date(),
+            Durée_souscription: '2 ans',
+            Prix_TTC: formule.PrixFormule,
+            Type_formule: formule.Nom
+        };
+        console.log(subscriptionData);  // Afficher les données avant de les envoyer
+        const response = await api.post('/Abonnement/add_Abonnement', subscriptionData);
+        
+        if (response.status === 200) {
+            console.log("Abonnement créé avec succès!");
+            this.currenFormule = formule;  // Mettre à jour la formule actuelle
+        }
+        console.log(this.currentFormule);
+    } catch (error) {
+        console.log("Erreur lors de la création de l'abonnement: ", error);
     }
-  };
+    }
+    }
+
+  }
+  );
   </script>

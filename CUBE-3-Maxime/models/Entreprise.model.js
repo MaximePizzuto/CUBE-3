@@ -19,11 +19,11 @@ const EntrepriseSchema = new mongoose.Schema({
     required: true,
   },
   Date_Crea: {
-    type: String,
+    type: Date,
     required: true,
   },
   Date_modif: {
-    type: String,
+    type: Date,
     required: true,
   },
   Tel: {

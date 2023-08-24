@@ -48,15 +48,13 @@
       { text: 'Voir ma facture', iconName: 'description', bgColor: 'darkgreen', route: '/mafacture' },
       { text: 'Mon historique', iconName: 'history', bgColor: 'red', route: '/monhistorique' },
       { text: 'Gérer mon abonnement', iconName: 'build', bgColor: 'purple', route: '/gerermonabo' },
-
-      // ... ajoutez autant d'éléments que nécessaire
     ]
     };
   },
   
 
   mounted() {
-    // Exemple avec une requête HTTP à une API (axios est utilisé ici, assurez-vous qu'il est installé) :
+    //  requête HTTP à une API (axios est utilisé ici, assurez-vous qu'il est installé) :
     const userID = Cookies.get('userID');
 
     api.get('/Users').then(response => {

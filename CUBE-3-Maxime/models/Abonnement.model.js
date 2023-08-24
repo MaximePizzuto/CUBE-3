@@ -2,10 +2,6 @@
 const mongoose = require('mongoose');
 
 const AbonnementSchema = new mongoose.Schema({
-  id_abonnement: {
-    type: String,
-    required: true,
-  },
   id_user: {
     type: String,
     required: true,
@@ -13,18 +9,17 @@ const AbonnementSchema = new mongoose.Schema({
   Nom_user: {
     type: String,
     required: true,
-    unique: true,
   },
   Tel_user: {
     type: String,
     required: true,
   },
   Date_Crea: {
-    type: String,
+    type: Date,
     required: true,
   },
   Date_modif: {
-    type: String,
+    type: Date,
     required: true,
   },
   Durée_souscription: {
@@ -32,6 +27,10 @@ const AbonnementSchema = new mongoose.Schema({
     required: true,
   },
   Prix_TTC: {
+    type: Number,
+    required: true,
+  },
+  Type_formule : {
     type: String,
     required: true,
   },

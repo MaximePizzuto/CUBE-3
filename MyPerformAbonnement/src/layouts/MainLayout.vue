@@ -69,7 +69,7 @@ export default defineComponent({
   },
 
   mounted() {
-    // Exemple avec une requête HTTP à une API (axios est utilisé ici, assurez-vous qu'il est installé) :
+
       const userID = Cookies.get('userID');
 
       api.get('/User/' + userID).then(response => {

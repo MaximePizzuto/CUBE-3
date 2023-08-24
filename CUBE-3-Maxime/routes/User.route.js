@@ -153,7 +153,7 @@ router.put('/User/update/:id', async (req, res) => {
   }
 });
 
-module.exports = router;
+
 // Vous pouvez appeler cette route via une requête HTTP PUT en fournissant l'ID de l'utilisateur dans l'URL et en incluant les nouvelles données dans le corps de la requête au format JSON. Par exemple :
 
 // URL : http://localhost:5000/User/update/ID_DE_L_UTILISATEUR
@@ -197,7 +197,7 @@ router.patch('/User/unique_update/:id', async (req, res) => {
     res.status(500).json({ error: err.message }); // Erreur de serveur en cas de problème de mise à jour
   }
 });
-
+module.exports = router;
 // Dans cette version, vous n'avez pas besoin de spécifier tous les champs à mettre à jour dans le corps de la requête. Au lieu de cela, vous pouvez fournir uniquement les champs que vous souhaitez mettre à jour. Par exemple, si vous voulez simplement mettre à jour le champ "Nom", vous pouvez envoyer une requête HTTP PATCH comme suit :
 
 // URL : http://localhost:5000/User/update/ID_DE_L_UTILISATEUR

@@ -18,7 +18,6 @@
   <script>
 import { defineComponent } from 'vue';
 import api from '../services/api'; // Import the API service
-import Cookies from 'js-cookie';
 
 
 export default defineComponent({
@@ -33,7 +32,7 @@ export default defineComponent({
       confirmPassword: '',  // Seulement pour SignUpPage.vue
     }
   },
-  // ...
+ 
   methods: {
     async register() {
       if (this.Mdp !== this.confirmPassword) {
@@ -56,7 +55,7 @@ export default defineComponent({
           console.log(`Utilisateur inscrit avec succès: ${response.data.user}`);
           
           // Redirect the user to the login page
-          this.$router.push('/User/login');
+          this.$router.push('/login');
         }
       } catch (error) {
         console.log("Une erreur s'est produite lors de l'enregistrement");

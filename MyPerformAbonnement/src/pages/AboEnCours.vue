@@ -2,31 +2,31 @@
     <q-page class="q-pa-md">
       <q-card>
         <q-card-section>
-          <div class="text-h6">{{ details.nomSouscripteur }}</div>
-          <div class="text-subtitle1">{{ details.nomFormule }}</div>
+          <div class="text-h6">{{ AbonnementEnCours.Nom_user }}</div>
+          <div class="text-subtitle1">{{ AbonnementEnCours.Type_formule }}</div>
         </q-card-section>
   
         <q-card-section>
           <q-list>
-            <q-item v-if="details.abonnementActif">
+            <q-item v-if="AbonnementEnCours">
               <q-item-section>Status: Actif</q-item-section>
             </q-item>
             <q-item v-else>
               <q-item-section>Status: Inactif</q-item-section>
             </q-item>
             <q-item>
-              <q-item-section>Date de souscription: {{ details.dateSouscription }}</q-item-section>
+              <q-item-section>Formule d'Abonnement {{ AbonnementEnCours.Type_formule }}</q-item-section>
             </q-item>
             <q-item>
-              <q-item-section>Durée restante: {{ details.dureeRestante }} jours</q-item-section>
+              <q-item-section>Date de souscription: {{ AbonnementEnCours.Date_Crea }}</q-item-section>
             </q-item>
             <q-item>
-              <q-item-section>Nombre de modules: {{ details.modules.length }}</q-item-section>
+              <q-item-section>Durée d'abonnement: {{ AbonnementEnCours.Durée_souscription }}</q-item-section>
             </q-item>
-            <q-item v-for="module in details.modules" :key="module">
-              <q-item-section>Module: {{ module }}</q-item-section>
+            <q-item>
+              <q-item-section>Prix par moi: {{ AbonnementEnCours.Prix_TTC }}€</q-item-section>
             </q-item>
-            <q-item v-if="details.renouvellementAutomatique">
+            <q-item v-if="AbonnementEnCours">
               <q-item-section>Renouvellement: Automatique</q-item-section>
             </q-item>
             <q-item v-else>
@@ -39,19 +39,35 @@
   </template>
   
   <script>
-  export default {
+  import { defineComponent } from 'vue';
+  import Cookies from 'js-cookie';
+  import api from '../services/api';
+
+  export default defineComponent ({
     data() {
       return {
-        details: {
-          nomSouscripteur: "Jean Dupont",
-          nomFormule: "Formule Premium",
-          abonnementActif: true,
-          dateSouscription: "2023-08-18",
-          dureeRestante: 365,
-          modules: ["anomalie", "risque", "audit"],
-          renouvellementAutomatique: true
-        }
+        AbonnementEnCours: {}
       };
+    },
+
+
+methods: {
+    async fetchAbonnementByUser(userID) {
+        try {
+            const response = await api.get(`/Abonnement/byUsers/${userID}`);
+            this.AbonnementEnCours = response.data;
+        } catch (error) {
+            console.error('Erreur lors de la récupération de l\'abonnement:', error);
+        }
     }
-  };
+},
+
+mounted() {
+  const userId = Cookies.get('userID');
+    this.fetchAbonnementByUser(userId);
+}
+
+  });
+
+  
   </script>

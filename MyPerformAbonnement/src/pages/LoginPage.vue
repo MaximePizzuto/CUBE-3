@@ -43,11 +43,6 @@
             //ON stock l'id d'utilisateur pour récupérer ses données.
             Cookies.set('userID', response.data.user._id, { sameSite: 'None', secure: true })
 
-            // Storing the user's email in a cookie.
-            Cookies.set('userEmail', this.Mail, { sameSite: 'None', secure: true });
-            Cookies.set('userName', response.data.user.Nom, { sameSite: 'None', secure: true }); // Stockez le nom de l'utilisateur
-            Cookies.set('userFirstName', response.data.user.Prenom, { sameSite: 'None', secure: true }); // Stockez le prénom de l'utilisateur
-            
             // Redirect the user to the home page
             this.$router.push('/home');
           }
