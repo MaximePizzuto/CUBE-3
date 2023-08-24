@@ -73,22 +73,9 @@ router.post('/Abonnement/add_Abonnement', async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err.message }); // Erreur de serveur en cas de problème de sauvegarde
   }
-  // Sauvegarde du nouvel Abonnement dans la base de données
+
 });
 
-//Trouver un abonnement par id de l'utilisateur.
-/*router.get('/Abonnement/:id_user', async (req, res) => {
-    try {
-        const abonnement = await Abonnement.findOne({ id_user: req.params.id_user });
-        if (abonnement) {
-            res.json(abonnement);
-        } else {
-            res.status(404).send('Aucun abonnement trouvé pour cet utilisateur.');
-        }
-    } catch (error) {
-        res.status(500).send('Erreur du serveur.');
-    }
-});*/
 
 router.get('/Abonnement/byUsers/:id_user', async (req, res) => {
     try {
