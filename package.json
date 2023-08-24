@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "papaparse": "^5.4.1",
-    "pdfmake": "^0.2.7"
-  }
-}
