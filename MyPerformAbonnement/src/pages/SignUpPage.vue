@@ -18,6 +18,7 @@
   <script>
 import { defineComponent } from 'vue';
 import api from '../services/api'; // Import the API service
+import { Dialog } from 'quasar';
 
 
 export default defineComponent({
@@ -36,9 +37,22 @@ export default defineComponent({
   methods: {
     async register() {
       if (this.Mdp !== this.confirmPassword) {
+        this.$q.notify({
+        color: 'negative',
+        position: 'top',
+        message: 'Les mots de passe ne correspondent pas.',
+        icon: 'report_problem'
+      });
         console.log("Les mots de passe ne correspondent pas");
         return;
       }
+
+      Dialog.create({
+              title: 'Confirmer',
+              message: 'Êtes-vous sûr que vos informations sont correctes ?',
+              cancel: true,
+              persistent: true
+            }).onOk(async() => {
 
       try {
         const response = await api.post('/User/signup', { // Replace '/register' with your API's registration endpoint
@@ -60,7 +74,18 @@ export default defineComponent({
       } catch (error) {
         console.log("Une erreur s'est produite lors de l'enregistrement");
       }
-    },
-  },
+    }
+
+    ).onCancel(() => {
+      // L'utilisateur a annulé l'action
+      this.$q.notify({
+        color: 'info',
+        position: 'top',
+        message: 'Création de compte annulée',
+        icon: 'info'
+      });
+    });
+  }
+}
 });
 </script>

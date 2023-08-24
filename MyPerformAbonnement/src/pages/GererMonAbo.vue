@@ -2,8 +2,8 @@
     <q-page class="q-pa-md">
       <q-card>
         <q-card-section>
-          <div class="text-h6">Formule en cours: {{ currentFormule.Nom }}</div>
-          <div class="text-subtitle1">{{ currentFormule.PrixFormule }}€/mois</div>
+          <div class="text-h6">Abonnement en cours: </div>
+          <div class="text-subtitle1">€/mois</div>
         </q-card-section>
       </q-card>
   
@@ -24,13 +24,12 @@
   import { defineComponent } from 'vue';
   import Cookies from 'js-cookie';
   import api from '../services/api';
+  import { Dialog } from 'quasar';
 
 
   export default defineComponent ({
     data() {
       return {
-        currentFormule: {
-        },
         userobjet: [],
         allFormules: [],
       };
@@ -53,6 +52,14 @@
 
     methods: {
       async createSubscription(formule) {
+        
+        Dialog.create({
+              title: 'Confirmer',
+              message: 'Êtes-vous sûr de vouloir choisir cette formule?',
+              cancel: true,
+              persistent: true
+            }).onOk(async() => {
+
     try {
         // Récupérez les données de l'utilisateur
         const userID = Cookies.get('userID');
@@ -82,15 +89,22 @@
         
         if (response.status === 200) {
             console.log("Abonnement créé avec succès!");
-            this.currenFormule = formule;  // Mettre à jour la formule actuelle
         }
-        console.log(this.currentFormule);
     } catch (error) {
         console.log("Erreur lors de la création de l'abonnement: ", error);
     }
+
+      }).onCancel(() => {
+      // L'utilisateur a annulé l'action
+      this.$q.notify({
+        color: 'info',
+        position: 'top',
+        message: 'Choix de formule annulé',
+        icon: 'info'
+      });
+    });
     }
     }
 
-  }
-  );
+  });
   </script>
