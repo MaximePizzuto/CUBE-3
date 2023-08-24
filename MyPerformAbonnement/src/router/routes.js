@@ -25,7 +25,7 @@ const routes = [
           next('/login'); // Sinon, redirigez l'utilisateur vers la page de connexion
         }
       } },
-      // ... autres routes
+     
     ]
   },
   // Toujours laisser cette ligne en dernier
