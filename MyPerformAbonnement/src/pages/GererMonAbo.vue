@@ -2,8 +2,8 @@
     <q-page class="q-pa-md">
       <q-card>
         <q-card-section>
-          <div class="text-h6">Abonnement en cours: </div>
-          <div class="text-subtitle1">€/mois</div>
+          <div class="text-h6" v-if="AbonnementEnCours">Abonnement en cours: {{ AbonnementEnCours.Type_formule }} </div>
+          <div class="text-subtitle1"  v-if="AbonnementEnCours"> {{ AbonnementEnCours.Prix_TTC }} €/mois</div>
         </q-card-section>
       </q-card>
   
@@ -32,10 +32,14 @@
       return {
         userobjet: [],
         allFormules: [],
+        AbonnementEnCours: [],
       };
     },
     
     mounted() {
+      const userId = Cookies.get('userID');
+      this.fetchAbonnementByUser(userId);
+
       api.get('/Formule').then(response => {
           this.allFormules = response.data;
       }).catch(error => {
@@ -51,6 +55,15 @@
     },
 
     methods: {
+      async fetchAbonnementByUser(userID) {
+        try {
+            const response = await api.get(`/Abonnement/byUsers/${userID}`);
+            this.AbonnementEnCours = response.data;
+        } catch (error) {
+            console.error('Erreur lors de la récupération de l\'abonnement:', error);
+        }
+    },
+
       async createSubscription(formule) {
         
         Dialog.create({
@@ -88,6 +101,12 @@
         const response = await api.post('/Abonnement/add_Abonnement', subscriptionData);
         
         if (response.status === 200) {
+          this.$q.notify({
+        color: 'info',
+        position: 'top',
+        message: 'Abonnement choisi avec succès',
+        icon: 'info'
+      });
             console.log("Abonnement créé avec succès!");
         }
     } catch (error) {
@@ -103,8 +122,9 @@
         icon: 'info'
       });
     });
-    }
-    }
-
+    },
+    },
   });
+
+
   </script>

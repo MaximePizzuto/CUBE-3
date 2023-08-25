@@ -8,7 +8,7 @@
   
         <q-card-section>
           <q-list>
-            <q-item v-if="AbonnementEnCours">
+            <q-item v-if="AbonnementEnCours.Type_formule">
               <q-item-section>Status: Actif</q-item-section>
             </q-item>
             <q-item v-else>

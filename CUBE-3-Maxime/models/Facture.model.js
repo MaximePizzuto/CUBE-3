@@ -1,20 +1,9 @@
 const mongoose = require('mongoose');
 
 const factureSchema = new mongoose.Schema({
-  Id: {
-     type: Number,
-     required: true,
-     unique: true,
-   },
-  Id_Facture: {
+  id_user: {
     type: String,
     required: true,
-    unique: true,
-  },
-  Id_user: {
-    type: String,
-    required: true,
-    unique: true,
   },
   Montant_HT: {
     type: Number,
