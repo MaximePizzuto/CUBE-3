@@ -1,31 +1,14 @@
 {
-  "name": "myperform",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "start": "node api.js",
-    "test": "nodemon api.js",
-    "i-dep": "npm i"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/MaximePizzuto/CUBE-3.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/MaximePizzuto/CUBE-3/issues"
-  },
-  "homepage": "https://github.com/MaximePizzuto/CUBE-3#readme",
   "dependencies": {
-    "angular": "^1.8.2",
-    "dotenv": "^16.1.4",
+    "bcrypt": "^5.1.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
     "express": "^4.18.2",
-    "materialize-css": "^1.0.0-rc.2",
-    "mongodb": "^5.6.0"
+    "js": "^0.1.0",
+    "mongoose": "^7.3.4",
+    "node": "^20.4.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.22"
+    "nodemon": "^3.0.1"
   }
 }

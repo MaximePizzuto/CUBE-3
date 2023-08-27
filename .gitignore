@@ -1,3 +1,5 @@
-node_modules
-config/mdp.js
+# Dossiers
+node_modules/
+
+# Fichiers
 .env
