@@ -36,7 +36,7 @@ const AbonnementSchema = new mongoose.Schema({
   },
 });
 
-const Abonnement = mongoose.model('Abonnement', AbonnementSchema);
+const AbonnementModel = mongoose.model('Abonnement', AbonnementSchema);
 
-module.exports = Abonnement;
+module.exports = AbonnementModel;
 

@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const Entreprise = require('../models/Entreprise.model');
+const EntrepriseModel = require('../models/Entreprise.model');
 
 // Route pour récupérer tous les Entreprises
 router.get('/Entreprises', (req, res) => {
     
-    Entreprise.find()
+    EntrepriseModel.find()
       .then((Entreprise) => {
         res.status(200).json(Entreprise);
       })
@@ -20,7 +20,7 @@ router.get('/Entreprises', (req, res) => {
 router.get('/Entreprise/:id', (req, res) => {
     const Entreprise_id = req.params.id;
     
-    Entreprise.findById(Entreprise_id)
+    EntrepriseModel.findById(Entreprise_id)
       .then((Entreprise) => {
         if (!Entreprise) {
           res.status(404).json({ message: 'Entreprise non trouvé' });
@@ -39,7 +39,7 @@ router.get('/Entreprise/:id', (req, res) => {
 router.delete('/Entreprise/delete_Entreprise/:id', (req, res) => {
   const Entreprise_id = req.params.id;
 
-Entreprise.findByIdAndDelete(Entreprise_id)
+EntrepriseModel.findByIdAndDelete(Entreprise_id)
   .then((Entreprise) => {
     if (!Entreprise) {
       res.status(404).json({ message: 'Entreprise introuvable' });
@@ -64,7 +64,7 @@ router.post('/Entreprise/add_Entreprise', (req, res) => {
   }
 
   // Création d'un nouvel Entreprise en utilisant le modèle User
-  const newEntreprise = new Entreprise({Entreprise_id, Nom_Entreprise, Localisation, Employes, Date_Crea, Date_modif, Tel});
+  const newEntreprise = new EntrepriseModel({Entreprise_id, Nom_Entreprise, Localisation, Employes, Date_Crea, Date_modif, Tel});
 
   // Sauvegarde du nouvel Entreprise dans la base de données
   newEntreprise.save()

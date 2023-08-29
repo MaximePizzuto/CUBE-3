@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const User = require('../models/user.model');
+const UserModel = require('../models/user.model');
 const bcrypt = require('bcrypt');
 
 
@@ -9,7 +9,7 @@ const bcrypt = require('bcrypt');
 // Route pour récupérer tous les utilisateurs
 router.get('/Users', (req, res) => {
     
-    User.find()
+  UserModel.find()
       .then((users) => {
         res.status(200).json(users);
       })
@@ -24,7 +24,7 @@ router.get('/Users', (req, res) => {
 router.get('/User/:id', (req, res) => {
     const userId = req.params.id;
     
-    User.findById(userId)
+    UserModel.findById(userId)
       .then((user) => {
         if (!user) {
           res.status(404).json({ message: 'Utilisateur non trouvé' });
@@ -43,7 +43,7 @@ router.get('/User/:id', (req, res) => {
 router.delete('/User/delete/:id', (req, res) => {
   const userId = req.params.id;
 
-User.findByIdAndDelete(userId)
+  UserModel.findByIdAndDelete(userId)
   .then((user) => {
     if (!user) {
       res.status(404).json({ message: 'Utilisateur introuvable' });
@@ -72,7 +72,7 @@ router.post('/User/signup', async (req, res) => {
     const hashedPassword = await bcrypt.hash(Mdp, 10);
 
     // Création d'un nouvel utilisateur en utilisant le modèle User
-    const newUser = new User({
+    const newUser = new UserModel({
       Nom,
       Prenom,
       Mail,
@@ -97,7 +97,7 @@ router.post('/User/login', async (req, res) => {
   // Convertir l'adresse e-mail en minuscules
   const normalizedMail = Mail.toLowerCase();
 
-  const user = await User.findOne({ Mail: normalizedMail });
+  const user = await UserModel.findOne({ Mail: normalizedMail });
   if (!user) {
     return res.status(400).json({ message: 'Email incorrect' });
   }
@@ -130,7 +130,7 @@ router.put('/User/update/:id', async (req, res) => {
     const hashedPassword = await bcrypt.hash(Mdp, 10);
 
     // Mettre à jour l'utilisateur dans la base de données
-    const updatedUser = await User.findByIdAndUpdate(
+    const updatedUser = await UserModel.findByIdAndUpdate(
       userId,
       {
         Nom,
@@ -182,7 +182,7 @@ router.patch('/User/unique_update/:id', async (req, res) => {
 
   try {
     // Mettre à jour l'utilisateur dans la base de données
-    const updatedUser = await User.findByIdAndUpdate(
+    const updatedUser = await UserModel.findByIdAndUpdate(
       userId,
       updateData,
       { new: true } // Renvoie le document mis à jour plutôt que l'ancien

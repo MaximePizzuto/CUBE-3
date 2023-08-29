@@ -32,6 +32,6 @@ const EntrepriseSchema = new mongoose.Schema({
   },
 });
 
-const Entreprise = mongoose.model('Entreprise', EntrepriseSchema);
+const EntrepriseModel = mongoose.model('Entreprise', EntrepriseSchema);
 
-module.exports = Entreprise;
+module.exports = EntrepriseModel;

@@ -17,11 +17,7 @@ const factureSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  Date_Payement: {
-    type: Date,
-    required: true,
-  },
-  Id_Abonnement: {
+  Entreprise: {
     type: String,
     required: true,
   },
@@ -37,15 +33,7 @@ const factureSchema = new mongoose.Schema({
     type: Date,
     required: true,
   },
-  pdf_facture: {
-    type: String,
-    required: true,
-  },
-  csv_facture: {
-    type: String,
-    required: true,
-  },
 });
 
-const Facture = mongoose.model('Facture', factureSchema);
-module.exports = Facture;
+const FactureModel = mongoose.model('Facture', factureSchema);
+module.exports = FactureModel;

@@ -1,11 +1,33 @@
 const express = require('express');
 const router = express.Router();
-const Facture = require('../models/Facture.model');
+const FactureModel = require('../models/Facture.model');
 
-// Route pour récupérer tous les Factures
+// Route pour ajouter un nouvel Facture (CREATE)
+router.post('/Factures/addFacture', (req, res) => {
+  const { id_user, Montant_HT, Montant_TTC, Formule, Entreprise, Description, Date_Creation, Date_Modification } = req.body;
+
+  // Vérification que les champs requis sont présents dans la requête
+  if ( !id_user || !Montant_HT || !Montant_TTC || !Formule || !Entreprise || !Description || !Date_Creation || !Date_Modification) {
+    return res.status(400).json({ message: 'Tous les champs sont requis' });
+  }
+
+  // Création d'une nouvelle Facture en utilisant le modèle Facture
+  const nouvelleFacture = new FactureModel({ id_user, Montant_HT, Montant_TTC, Formule, Entreprise, Description, Date_Creation, Date_Modification });
+
+  // Sauvegarde d'une nouvelle Facture dans la base de données
+  nouvelleFacture.save()
+    .then((Facture) => {
+      res.status(201).json(Facture); // Renvoie la Facture créé avec le statut 201 (Created)
+    })
+    .catch((err) => {
+      res.status(500).json({ error: err.message }); // Erreur de serveur en cas de problème de sauvegarde
+    });
+});
+
+// Route pour récupérer tous les Factures (READ)
 router.get('/Factures', (req, res) => {
     
-    Facture.find()
+  FactureModel.find()
       .then((Facture) => {
         res.status(200).json(Facture);
       })
@@ -15,29 +37,46 @@ router.get('/Factures', (req, res) => {
   });
 
 
-// Route pour récupérer un Facture par ID
-router.get('/Facture/:id', (req, res) => {
-    const FactureId = req.params.id;
-    
-    Entreprise.findById(userId)
-      .then((Facture) => {
-        if (!Facture) {
-          res.status(404).json({ message: 'Facture non trouvé' });
-        } else {
-          res.status(200).json(Facture);
-        }
-      })
-      .catch((err) => {
-        res.status(400).json({ error: err.message });
-      });
-  });
+// Route pour récupérer un Facture par ID (READ ID)
+router.get('Factures/:id', (req, res) => {
+  const factureId = req.params.id;
 
+  FactureModel.findById(factureId)
+    .then((facture) => {
+      if (!facture) {
+        res.status(404).json({ message: 'Facture non trouvée' });
+      } else {
+        res.status(200).json(facture);
+      }
+    })
+    .catch((err) => {
+      res.status(400).json({ error: err.message });
+    });
+});
 
-// Route pour supprimer un Facture par ID
-router.delete('/Facture/delete_Facture/:id', (req, res) => {
+// Route pour mettre à jour une facture par ID (UPDATE)
+router.put('/factures/:id', (req, res) => {
+  const factureId = req.params.id;
+  const updatedData = req.body;
+
+  FactureModel.findByIdAndUpdate(factureId, updatedData, { new: true })
+    .then((facture) => {
+      if (!facture) {
+        res.status(404).json({ message: 'Facture introuvable' });
+      } else {
+        res.status(200).json(facture);
+      }
+    })
+    .catch((err) => {
+      res.status(500).json({ error: err.message });
+    });
+});
+
+// Route pour supprimer une Facture par ID
+router.delete('/User/delete_Facture/:id', (req, res) => {
   const FactureId = req.params.id;
 
-Facture.findByIdAndDelete(FactureId)
+FactureModel.findByIdAndDelete(FactureId)
   .then((Facture) => {
     if (!Facture) {
       res.status(404).json({ message: 'Facture introuvable' });
@@ -51,31 +90,10 @@ Facture.findByIdAndDelete(FactureId)
 });
 
 
-// Route pour ajouter un nouvel Facture
-router.post('/Facture/add_Facture', (req, res) => {
-  const { Id_user, Montant_HT, Montant_TTC, Formule, Date_payement, Id_Abonnement, Description, Date_Creation, Date_Modification, pdf_facture, csv_facture } = req.body;
-
-  // Vérification que les champs requis sont présents dans la requête
-  if ( !Id_user || !Montant_HT || !Montant_TTC || !Formule || !Date_payement || !Id_Abonnement || !Description || !Date_Creation || !Date_Modification || !pdf_facture || !csv_facture) {
-    return res.status(400).json({ message: 'Tous les champs sont requis' });
-  }
-
-  // Création d'un nouvel Facture en utilisant le modèle User
-  const Facture = new Facture({ Id_user, Montant_HT, Montant_TTC, Formule, Date_payement, Id_Abonnement, Description, Date_Creation, Date_Modification, pdf_facture, csv_facture });
-
-  // Sauvegarde du nouvel Facture dans la base de données
-  newFacture.save()
-    .then((Facture) => {
-      res.status(201).json(Facture); // Renvoie la Facture créé avec le statut 201 (Created)
-    })
-    .catch((err) => {
-      res.status(500).json({ error: err.message }); // Erreur de serveur en cas de problème de sauvegarde
-    });
-});
-
-router.get('/Facture/byUsers/:id_user', async (req, res) => {
+//Recupérer une facture par id utilisateur
+router.get('/Factures/byUsers/:id_user', async (req, res) => {
   try {
-      const facture = await Facture.findOne({ id_user: req.params.id_user });
+      const facture = await FactureModel.findOne({ id_user: req.params.id_user });
       if (facture) {
           res.json(facture);
       } else {

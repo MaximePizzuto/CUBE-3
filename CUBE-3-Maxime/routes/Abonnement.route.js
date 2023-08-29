@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const Abonnement = require('../models/Abonnement.model');
+const AbonnementModel = require('../models/Abonnement.model');
 
 // Route pour récupérer tous les Abonnements
 router.get('/Abonnements', (req, res) => {
     
-    Abonnement.find()
+  AbonnementModel.find()
       .then((Abonnement) => {
         res.status(200).json(Abonnement);
       })
@@ -20,7 +20,7 @@ router.get('/Abonnements', (req, res) => {
 router.get('/Abonnement/:id', (req, res) => {
     const id_abonnement = req.params.id;
     
-    Abonnement.findById(id_abonnement)
+    AbonnementModel.findById(id_abonnement)
       .then((Abonnement) => {
         if (!Abonnement) {
           res.status(404).json({ message: 'Abonnement non trouvé' });
@@ -39,7 +39,7 @@ router.get('/Abonnement/:id', (req, res) => {
 router.delete('/Abonnement/delete_Abonnement/:id', (req, res) => {
   const id_abonnement = req.params.id;
 
-Abonnement.findByIdAndDelete(id_abonnement)
+  AbonnementModel.findByIdAndDelete(id_abonnement)
   .then((Abonnement) => {
     if (!Abonnement) {
       res.status(404).json({ message: 'Abonnement introuvable' });
@@ -64,7 +64,7 @@ router.post('/Abonnement/add_Abonnement', async (req, res) => {
   }
 
   // Création d'un nouvel Abonnement en utilisant le modèle Abonnement
-  const newAbonnement = new Abonnement({id_user, Nom_user, Tel_user, Date_Crea, Date_modif, Durée_souscription, Prix_TTC, Type_formule});
+  const newAbonnement = new AbonnementModel({id_user, Nom_user, Tel_user, Date_Crea, Date_modif, Durée_souscription, Prix_TTC, Type_formule});
 
 
   const savedAbonnement = await newAbonnement.save();
@@ -79,7 +79,7 @@ router.post('/Abonnement/add_Abonnement', async (req, res) => {
 
 router.get('/Abonnement/byUsers/:id_user', async (req, res) => {
     try {
-        const abonnement = await Abonnement.findOne({ id_user: req.params.id_user });
+        const abonnement = await AbonnementModel.findOne({ id_user: req.params.id_user });
         if (abonnement) {
             res.json(abonnement);
         } else {
@@ -88,6 +88,25 @@ router.get('/Abonnement/byUsers/:id_user', async (req, res) => {
     } catch (error) {
         res.status(500).send('Erreur du serveur.');
     }
+});
+
+// Route pour mettre à jour un abonnement par ID utilisateur
+router.put('/Abonnement/update_by_user/:id_user', async (req, res) => {
+  try {
+      const updatedAbonnement = await AbonnementModel.findOneAndUpdate(
+          { id_user: req.params.id_user }, 
+          req.body, 
+          { new: true }  // Cette option renvoie le document mis à jour
+      );
+      
+      if (!updatedAbonnement) {
+          res.status(404).send('Aucun abonnement trouvé pour cet utilisateur.');
+      } else {
+          res.json(updatedAbonnement);
+      }
+  } catch (error) {
+      res.status(500).send('Erreur du serveur.');
+  }
 });
 
 
