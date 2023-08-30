@@ -7,9 +7,12 @@
           MyPerformAbonnement
         </q-toolbar-title>
         
-        <div class="text-h7" v-if="isOnHomePage && userobjet.Nom && userobjet.Prenom">{{ userobjet.Nom }} {{ userobjet.Prenom }}</div>
-        <div><q-btn v-if="isOnHomePage && userobjet.Nom && userobjet.Prenom" @click="logout" label="Déconnexion" /></div>
-        <div><q-btn v-if="!isOnHomePage && !isOnLoginPage && !isOnSignupPage" @click="goToHomePage" label="Accueil" class="q-ml-md"/></div>
+        <template v-if="isOnHomePage && userobjet.Nom && userobjet.Prenom">
+          <q-btn @click="goToUserPage" :label="`${userobjet.Nom} ${userobjet.Prenom}`" />
+          <q-btn class="bouton-logout" @click="logout" label="Déconnexion" />
+        </template>
+        
+        <q-btn v-else-if="!isOnHomePage && !isOnLoginPage && !isOnSignupPage" @click="goToHomePage" label="Accueil" class="q-ml-md"/>
       </q-toolbar>
     </q-header>
     <q-page-container>
@@ -40,6 +43,9 @@ export default defineComponent({
     const isOnSignupPage = ref(route.path === '/signup');
     const goToHomePage = () => {
   router.push('/home');  // Assurez-vous que 'home' est le nom de votre route d'accueil.
+};  
+const goToUserPage = () => {
+  router.push('/utilisateur');  // Assurez-vous que 'home' est le nom de votre route d'accueil.
 };
 
 
@@ -64,7 +70,8 @@ export default defineComponent({
       isOnLoginPage,
       isOnSignupPage,
       logout,
-      goToHomePage
+      goToHomePage,
+      goToUserPage
     };
   },
 
@@ -96,6 +103,10 @@ export default defineComponent({
 }
 .text-h7 {
   margin-right: 10px;
+}
+
+.bouton-logout {
+  margin-left: 10px;
 }
 
 .q-my-md {

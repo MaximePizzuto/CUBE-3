@@ -68,6 +68,11 @@ router.post('/User/signup', async (req, res) => {
       return res.status(400).json({ message: 'Tous les champs sont requis' });
     }
 
+    const existingUser = await UserModel.findOne({ Mail: Mail }); // Adaptez cette ligne à la façon dont vous avez défini votre modèle
+    if (existingUser) {
+      return res.status(409).json({ message: 'Email déjà utilisé' }); // 409 est le code HTTP pour "Conflit"
+    }
+
     // Hasher le mot de passe avec bcrypt
     const hashedPassword = await bcrypt.hash(Mdp, 10);
 
@@ -171,8 +176,6 @@ router.put('/User/update/:id', async (req, res) => {
 //   "Mdp": "nouveaumotdepasse"
 // }
 
-// Assurez-vous d'adapter cette fonctionnalité en fonction de vos besoins spécifiques et de la structure de votre base de données.
-
 
 
 // Route pour la modification d'un champ spécifique d'un utilisateur par ID
@@ -181,6 +184,11 @@ router.patch('/User/unique_update/:id', async (req, res) => {
   const updateData = req.body; // Les données de mise à jour
 
   try {
+    // Si le mot de passe est inclus dans les données de mise à jour, le hacher
+    if (updateData.Mdp) {
+      const hashedPassword = await bcrypt.hash(updateData.Mdp, 10);
+      updateData.Mdp = hashedPassword;
+    }
     // Mettre à jour l'utilisateur dans la base de données
     const updatedUser = await UserModel.findByIdAndUpdate(
       userId,
@@ -198,6 +206,7 @@ router.patch('/User/unique_update/:id', async (req, res) => {
   }
 });
 module.exports = router;
+
 // Dans cette version, vous n'avez pas besoin de spécifier tous les champs à mettre à jour dans le corps de la requête. Au lieu de cela, vous pouvez fournir uniquement les champs que vous souhaitez mettre à jour. Par exemple, si vous voulez simplement mettre à jour le champ "Nom", vous pouvez envoyer une requête HTTP PATCH comme suit :
 
 // URL : http://localhost:5000/User/update/ID_DE_L_UTILISATEUR
@@ -211,130 +220,3 @@ module.exports = router;
 // }
 
 // L'objet JSON que vous envoyez dans le corps de la requête détermine quels champs seront mis à jour dans l'utilisateur.
-
-// N'oubliez pas d'adapter cette approche en fonction de vos besoins spécifiques et de la structure de votre base de données.
-
-
-
-
-
-
-
-
-
-
-
-
-/*------------------ANCIEN CODE -----------------------
-
-// Route pour connecter un utilisateur
-
-router.post('/User/login', async (req, res) => {
-  const { Mail, Mdp } = req.body;
-
-  try {
-    const user = await User.findOne({ Mail });
-
-    if (!user) {
-      return res.status(401).json({ message: 'Adresse e-mail non trouvée' });
-    }
-
-    const isPasswordValid = await bcrypt.compare(Mdp, user.Mdp);
-
-    if (!isPasswordValid) {
-      return res.status(401).json({ message: 'Adresse e-mail ou mot de passe incorrect' });
-    }
-
-    res.json({ message: 'Connexion réussie' });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
-
-
-
-
-
-
-
-const express = require('express');
-const router = express.Router();
-const User = require('../models/user.model');
-const bcrypt = require('bcryptjs'); // Pour le hachage du mot de passe
-const jwt = require('jsonwebtoken'); // Pour la création du token JWT
-const { check, validationResult } = require('express-validator');
-
-const jwtSecret = 'your_jwt_secret'; //
-
-
-// Route pour l'inscription
-router.post('/User/signup',
-[
-  // vérifiez que l'email n'est pas vide et qu'il a un format correct
-  check('Mail').isEmail().withMessage('Invalid email format'),
-  
-  // vérifiez que le mot de passe n'est pas vide et qu'il a au moins 5 caractères
-  check('Mdp').isLength({ min: 5 }).withMessage('Password must be at least 5 characters long'),
-  check('Nom').notEmpty().withMessage('Ce champs est requis'),
-  check('Prenom').notEmpty().withMessage('Ce champs est requis'),
-  check('Tel').notEmpty().withMessage('Ce champs est requis'),
-  check('Entreprise').notEmpty().withMessage('Ce champs est requis'),
-  // vous pouvez ajouter plus de vérifications ici pour les autres champs de votre formulaire
-  
-],
- async (req, res) => {
-  const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
-
-    const user = await User.findOne({ Mail: req.body.Mail });
-    if (user) {
-      return res.status(400).json({ message: 'Votre mail est déjà pris' });
-    }
-
-  const { Nom, Prenom, Mail, Tel, Entreprise, Mdp } = req.body;
-
-  // Hachez le mot de passe avant de le stocker
-  const hashedPassword = await bcrypt.hash(Mdp, 10);
-
-  const newUser = new User({ Nom, Prenom, Mail, Tel, Entreprise, Mdp: hashedPassword });
-
-  newUser.save()
-    .then((user) => {
-      // Créez un token pour le nouvel utilisateur
-      const token = jwt.sign({ _id: user._id }, jwtSecret);
-
-      res.status(201).json({ user, token });
-    })
-    .catch((err) => {
-      res.status(500).json({ error: err.message });
-    });
-});
-
-// Route pour la connexion
-router.post('/User/login', async (req, res) => {
-  const { Mail, Mdp } = req.body;
-
-  const user = await User.findOne({ Mail });
-  if (!user) {
-    return res.status(400).json({ message: 'Email incorrect' });
-  }
-
-  const isPasswordCorrect = await bcrypt.compare(Mdp, user.Mdp);
-  if (!isPasswordCorrect) {
-    return res.status(400).json({ message: 'Mot de passe incorrect' });
-  }
-
-  // Créez un token pour l'utilisateur connecté
-  const token = jwt.sign({ _id: user._id }, jwtSecret);
-
-  return res.json({ user, token });
-});
-
-
-
-
-  module.exports = router;
-  
- */

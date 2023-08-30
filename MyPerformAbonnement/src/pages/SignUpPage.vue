@@ -30,7 +30,7 @@ export default defineComponent({
       Tel: '',
       Entreprise: '',
       Mdp: '',
-      confirmPassword: '',  // Seulement pour SignUpPage.vue
+      confirmPassword: '', 
     }
   },
  
@@ -64,28 +64,37 @@ export default defineComponent({
         Mdp: this.Mdp,
         });
         
-        if (response.data) {
-          // Assuming the response has a data field with the user's information
-          console.log(`Utilisateur inscrit avec succès: ${response.data.user}`);
-          
-          // Redirect the user to the login page
+        if (response.status === 201) {
+          this.$q.notify({
+            color: 'positive',
+            position: 'top',
+            message: 'Compte créé avec succès!',
+            icon: 'check'
+          });
           this.$router.push('/login');
         }
       } catch (error) {
-        console.log("Une erreur s'est produite lors de l'enregistrement");
+        if (error.response && error.response.status === 409) {
+          // Si l'email est déjà utilisé
+          this.$q.notify({
+            color: 'negative',
+            position: 'top',
+            message: 'Email déjà utilisé!',
+            icon: 'error'
+          });
+        } else {
+          // Autres erreurs
+          console.log("Une erreur s'est produite lors de l'enregistrement");
+          this.$q.notify({
+            color: 'negative',
+            position: 'top',
+            message: 'Une erreur s\'est produite lors de l\'enregistrement',
+            icon: 'error'
+          });
+        }
       }
     }
-
-    ).onCancel(() => {
-      // L'utilisateur a annulé l'action
-      this.$q.notify({
-        color: 'info',
-        position: 'top',
-        message: 'Création de compte annulée',
-        icon: 'info'
-      });
-    });
+)}
   }
-}
 });
 </script>
