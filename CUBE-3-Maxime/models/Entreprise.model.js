@@ -2,7 +2,7 @@
 const mongoose = require('mongoose');
 
 const EntrepriseSchema = new mongoose.Schema({
-  Entreprise_id: {
+  id_user: {
     type: String,
     required: true,
   },
@@ -10,11 +10,11 @@ const EntrepriseSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  Localisation: {
+  Adresse_Postale: {
     type: String,
     required: true,
   },
-  Employes: {
+  Nom_Employes: {
     type: String,
     required: true,
   },
