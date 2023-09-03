@@ -84,6 +84,7 @@ router.post('/User/signup', async (req, res) => {
       Tel,
       Entreprise,
       Mdp: hashedPassword,
+      is_Admin: false,
     });
 
     // Sauvegarde du nouvel utilisateur dans la base de données

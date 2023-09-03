@@ -13,6 +13,7 @@ const routes = [
       { path: '/monhistorique', component: () => import('pages/MonHistorique.vue') },
       { path: '/mafacture', component: () => import('pages/MaFacture.vue') },
       { path: '/utilisateur', component: () => import('pages/InformationUtilisateur.vue')},
+      { path: '/administrateur', component: () => import('pages/CRUDAdministrateur.vue')},
       { path: '/home',
       component: () => import('layouts/MainLayout.vue'),
       children: [

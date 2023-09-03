@@ -5,6 +5,9 @@
         <q-toolbar-title>
           <q-img src="~assets/my-perform.png" alt="Logo" class="q-my-md"></q-img>
           MyPerformAbonnement
+          <template v-if="isAdmin">
+            <q-btn class="bouton-admin q-mr-md" @click="goToAdminPage" label="CRUD Admin"/>
+          </template>
         </q-toolbar-title>
         
         <template v-if="isOnHomePage && userobjet.Nom && userobjet.Prenom">
@@ -32,6 +35,7 @@ export default defineComponent({
   data() {
     return {
       userobjet: [],
+      isAdmin: false,
     };
   },
 
@@ -42,11 +46,14 @@ export default defineComponent({
     const isOnLoginPage = ref(route.path === '/login');
     const isOnSignupPage = ref(route.path === '/signup');
     const goToHomePage = () => {
-  router.push('/home');  // Assurez-vous que 'home' est le nom de votre route d'accueil.
-};  
-const goToUserPage = () => {
-  router.push('/utilisateur');  // Assurez-vous que 'home' est le nom de votre route d'accueil.
-};
+    router.push('/home');  // Assurez-vous que 'home' est le nom de votre route d'accueil.
+    };  
+    const goToUserPage = () => {
+      router.push('/utilisateur');  // Assurez-vous que 'home' est le nom de votre route d'accueil.
+    };
+    const goToAdminPage = () =>  {
+      router.push('/administrateur');
+    }
 
 
 
@@ -71,7 +78,8 @@ const goToUserPage = () => {
       isOnSignupPage,
       logout,
       goToHomePage,
-      goToUserPage
+      goToUserPage,
+      goToAdminPage
     };
   },
 
@@ -81,6 +89,7 @@ const goToUserPage = () => {
 
       api.get('/User/' + userID).then(response => {
         this.userobjet = response.data;
+        this.isAdmin = this.userobjet.is_Admin;
       }).catch(error => {
         console.error('Erreur lors de la récupération de l\'utilisateur : ', error);
       });
@@ -112,5 +121,9 @@ const goToUserPage = () => {
 .q-my-md {
   height: 50px;
   width: 50px;
+}
+
+.bouton-admin{
+  margin-left: 10px;
 }
 </style>

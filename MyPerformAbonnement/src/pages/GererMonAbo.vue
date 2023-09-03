@@ -12,7 +12,7 @@
         </q-card-section>
       </q-card>
   
-      <q-card v-for="(formule, index ) in allFormules" :key="index" class="q-mt-md">
+      <q-card v-for="(formule, index ) in filteredFormules" :key="index" class="q-mt-md">
         <q-card-section>
           <div class="text-h5">{{ formule.Nom }}</div>
           <div>{{ formule.Description }}</div>
@@ -56,6 +56,15 @@
       }).catch(error => {
           console.error('Erreur lors de la récupération de l utilisateur : ', error);
       });
+    },
+
+    computed: {
+    filteredFormules() {
+        if (this.AbonnementEnCours && this.AbonnementEnCours.Prix_TTC) {
+            return this.allFormules.filter(formule => formule.PrixFormule > this.AbonnementEnCours.Prix_TTC);
+        }
+        return this.allFormules;
+      }
     },
 
     methods: {
@@ -152,8 +161,9 @@
           };
           let response;
                   //Creation de la facture en BDD
-                  response = await api.post('/Factures/addFacture', factureData);
-                  notificationMessage = 'Votre facture a été créé avec succès';
+                  
+            response = await api.post('/Factures/addFacture', factureData);
+            notificationMessage = 'Votre facture a été créé avec succès';
 
           if (response.status === 200 || response.status === 201) {
               this.$q.notify({

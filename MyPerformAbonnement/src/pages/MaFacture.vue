@@ -2,7 +2,14 @@
   <q-page class="q-pa-md">
     <q-card>
       <q-card-section>
-        <div class="text-h6">FACTURE DE L'ABONNEMENT EN COURS</div>
+        <div class="row justify-between">
+          <div class="text-h6">FACTURE DE L'ABONNEMENT EN COURS</div>
+          <q-card>
+            <q-btn @click="downloadFacturePDF" label="Exporter en PDF" color="primary" class="bouton-PDF"/>
+            <q-btn @click="downloadFactureCSV" label="Exporter en CSV" color="primary" class="bouton-CSV"/>
+          </q-card>
+          
+        </div>
         <div class="text-subtitle1">Formule de l'abonnement: {{ FactureEnCours.Formule }}</div>
       </q-card-section>
 
@@ -58,8 +65,54 @@ methods: {
   formatDate(dateString) {
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
     return new Date(dateString).toLocaleDateString(undefined, options);
-  }
+  },
+
+  async downloadFacturePDF() {
+      try {
+        const idFacture = this.FactureEnCours._id;
+        const response = await api.get(`/download/facture/${idFacture}`, { responseType: 'blob' });
+
+        // Créer un lien invisible pour déclencher le téléchargement
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', `facture-${idFacture}.pdf`);
+        document.body.appendChild(link);
+        link.click();
+
+        // Nettoyer
+        link.parentNode.removeChild(link);
+        window.URL.revokeObjectURL(url);
+
+      } catch (error) {
+        console.error('Erreur lors du téléchargement de la facture:', error);
+      }
+    },
+
+    async downloadFactureCSV() {
+      try {
+        const idFacture = this.FactureEnCours.id_user;
+        const response = await api.get(`/download/facture-csv/${idFacture}`, { responseType: 'blob' });
+
+        // Créer un lien invisible pour déclencher le téléchargement
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', `facture-${idFacture}.csv`);
+        document.body.appendChild(link);
+        link.click();
+
+        // Nettoyer
+        link.parentNode.removeChild(link);
+        window.URL.revokeObjectURL(url);
+
+      } catch (error) {
+        console.error('Erreur lors du téléchargement de la facture:', error);
+      }
+    },
 },
+
+
 
 mounted() {
 const userId = Cookies.get('userID');
@@ -70,3 +123,10 @@ const userId = Cookies.get('userID');
 
 
 </script>
+
+<style>
+
+.bouton-PDF {
+  margin-right: 10px;
+}
+</style>

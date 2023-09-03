@@ -56,15 +56,15 @@ EntrepriseModel.findByIdAndDelete(Entreprise_id)
 
 // Route pour ajouter un nouvel Entreprise
 router.post('/Entreprise/add_Entreprise', (req, res) => {
-  const { Entreprise_id, Nom_Entreprise, Localisation, Employes, Date_Crea, Date_modif, Tel } = req.body;
+  const { id_user, Nom_Entreprise, Adresse_Postale, Nom_Employes, Date_Crea, Date_modif, Tel } = req.body;
 
   // Vérification que les champs requis sont présents dans la requête
-  if (!Entreprise_id || !Nom_Entreprise || !Localisation || !Employes || !Date_Crea || !Date_modif || !Tel) {
+  if (!id_user || !Nom_Entreprise || !Adresse_Postale || !Nom_Employes || !Date_Crea || !Date_modif || !Tel) {
     return res.status(400).json({ message: 'Tous les champs sont requis' });
   }
 
   // Création d'un nouvel Entreprise en utilisant le modèle User
-  const newEntreprise = new EntrepriseModel({Entreprise_id, Nom_Entreprise, Localisation, Employes, Date_Crea, Date_modif, Tel});
+  const newEntreprise = new EntrepriseModel({id_user, Nom_Entreprise, Adresse_Postale, Nom_Employes, Date_Crea, Date_modif, Tel});
 
   // Sauvegarde du nouvel Entreprise dans la base de données
   newEntreprise.save()
